@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.climateduels.dataManager.DataManager;
+import com.example.climateduels.database.Database;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DataManager.init();
 
         initUI();
     }
