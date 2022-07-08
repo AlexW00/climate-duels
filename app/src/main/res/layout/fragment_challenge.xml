@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".rank.RankFragment">
+    tools:context=".challenge.ChallengeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/message4"
+            android:id="@+id/message2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Score Board"
+            android:text="Weekly Challenges"
             android:textAlignment="center"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
