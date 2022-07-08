@@ -38,7 +38,10 @@ public class TeamFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(recycler_menu);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new CustomAdapter(new String[]{"a", "b", "c"}));
+        recyclerView.setAdapter(new CustomAdapter(new String[]{
+                "1   Max Muster       300",
+                "2   John Doe         290",
+                "3   Mr. Bronze       280"}));
     }
 
 }
