@@ -7,7 +7,6 @@
     tools:context=".StartActivity"
     android:layout_margin="12dp"
     >
-
     <LinearLayout
         android:id="@+id/lin_layout_header"
         android:layout_width="match_parent"
