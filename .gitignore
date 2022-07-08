@@ -44,3 +44,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# db secrets
+database.properties
