@@ -2,6 +2,7 @@ package com.example.climateduels;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -105,6 +106,7 @@ public class CategoryChooserActivity extends AppCompatActivity {
         Toast.makeText(CategoryChooserActivity.this, selectedTravelText+" "+selectedEatText, Toast.LENGTH_SHORT).show();
         Toast.makeText(CategoryChooserActivity.this, numTravel+" "+numEat, Toast.LENGTH_SHORT).show();
 
+        startPerformanceActivity();
     }
 
     private void showErrorToastGoal() {
@@ -117,5 +119,10 @@ public class CategoryChooserActivity extends AppCompatActivity {
         Toast.makeText(CategoryChooserActivity.this,
                 "Please use a time per week amount between 0 to 49", Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void startPerformanceActivity() {
+        Intent intent = new Intent(CategoryChooserActivity.this,  PerformanceActivity.class);
+        startActivity(intent);
     }
 }
