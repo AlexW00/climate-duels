@@ -37,14 +37,14 @@
                 android:id="@+id/text_travel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Travel" />
 
             <TextView
                 style="@style/TextViewHeader2Appearance"
                 android:id="@+id/text_travel_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Travel with less C02 emissions" />
 
             <RadioGroup
                 android:id="@+id/category_radio_group_travel"
@@ -89,14 +89,14 @@
                 android:id="@+id/text_eat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Eat" />
 
             <TextView
                 style="@style/TextViewHeader2Appearance"
                 android:id="@+id/text_eat_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Eat environmentally" />
 
             <RadioGroup
                 android:id="@+id/category_radio_group_eat"

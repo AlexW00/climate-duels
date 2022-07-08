@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.climateduels.dataManager.DataManager;
+import com.example.climateduels.dataManager.EmergencyData;
 import com.example.climateduels.dataManager.models.GoalCategoryModel;
 import com.example.climateduels.dataManager.models.GoalModel;
 import com.example.climateduels.dataManager.models.TeamModel;
@@ -54,31 +55,18 @@ public class CategoryChooserActivity extends AppCompatActivity {
     }
 
     private void fillCategories() {
-        TextView
-                travelTitle = findViewById(R.id.text_travel),
-                travelDescription = findViewById(R.id.text_travel_description),
-                eatTitle = findViewById(R.id.text_eat),
-                eatDescription = findViewById(R.id.text_eat_description);
+        EmergencyData emergencyData = EmergencyData.getInstance();
 
-
-        TeamModel teamModel = DataManager.getTeam(teamCode);
-        ArrayList<GoalCategoryModel<GoalModel>> goalCategoryModels = teamModel.getGoalCategories();
-        GoalCategoryModel<GoalModel> travelModel = goalCategoryModels.get(0);
-        GoalCategoryModel<GoalModel> eatModel = goalCategoryModels.get(1);
-
-        travelTitle.setText(travelModel.getTitle());
-        travelDescription.setText(travelModel.getDescription());
-        eatTitle.setText(eatModel.getTitle());
-        eatDescription.setText(eatModel.getDescription());
-
-        for (GoalModel goal : travelModel.getGoals()) {
+        ArrayList<String> travelModel = emergencyData.getTravelOptions();
+        ArrayList<String> eatModel = emergencyData.getEatOption();
+        for (String goal : travelModel) {
             RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(goal.getTitle());
+            radioButton.setText(goal);
             radioGroupTravel.addView(radioButton);
         }
-        for (GoalModel goal : eatModel.getGoals()) {
+        for (String goal : eatModel) {
             RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(goal.getTitle());
+            radioButton.setText(goal);
             radioGroupEat.addView(radioButton);
         }
     }
@@ -110,6 +98,12 @@ public class CategoryChooserActivity extends AppCompatActivity {
         String selectedTravelText = selectedTravel.getText().toString(),
                 selectedEatText = selectedEat.getText().toString();
 
+        EmergencyData emergencyData = EmergencyData.getInstance();
+
+        emergencyData.setSelectedEat(selectedEatText);
+        emergencyData.setSelectedTravel(selectedTravelText);
+        emergencyData.setTravelCount(numTravel);
+        emergencyData.setEatCount(numEat);
         //TODO SAVE TO DATAMANAGER
         Toast.makeText(CategoryChooserActivity.this, selectedTravelText+" "+selectedEatText, Toast.LENGTH_SHORT).show();
         Toast.makeText(CategoryChooserActivity.this, numTravel+" "+numEat, Toast.LENGTH_SHORT).show();
