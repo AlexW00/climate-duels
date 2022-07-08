@@ -2,6 +2,7 @@ package com.example.climateduels;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -83,8 +84,16 @@ public class CategoryChooserActivity extends AppCompatActivity {
     }
 
     private void onSubmitButtonClicked() {
-        int numTravel = Integer.parseInt(numTravelEdit.getText().toString()),
-                numEat = Integer.parseInt(numEatEdit.getText().toString());
+        String numTravelString = numTravelEdit.getText().toString(),
+                numEatString = numEatEdit.getText().toString();
+
+        if(numTravelString.length()==0 || numEatString.length()==0){
+            showErrorToastCounterEmpty();
+            return;
+        }
+
+        int numTravel = Integer.parseInt(numTravelString),
+                numEat = Integer.parseInt(numEatString);
 
         int travelRadioId = radioGroupTravel.getCheckedRadioButtonId(),
                 eatRadioId = radioGroupEat.getCheckedRadioButtonId();
@@ -105,6 +114,7 @@ public class CategoryChooserActivity extends AppCompatActivity {
         Toast.makeText(CategoryChooserActivity.this, selectedTravelText+" "+selectedEatText, Toast.LENGTH_SHORT).show();
         Toast.makeText(CategoryChooserActivity.this, numTravel+" "+numEat, Toast.LENGTH_SHORT).show();
 
+        startPerformanceActivity();
     }
 
     private void showErrorToastGoal() {
@@ -113,9 +123,20 @@ public class CategoryChooserActivity extends AppCompatActivity {
 
     }
 
+    private void showErrorToastCounterEmpty() {
+        Toast.makeText(CategoryChooserActivity.this,
+                "Please enter goal counts", Toast.LENGTH_SHORT).show();
+
+    }
+
     private void showErrorToastCounter() {
         Toast.makeText(CategoryChooserActivity.this,
                 "Please use a time per week amount between 0 to 49", Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void startPerformanceActivity() {
+        Intent intent = new Intent(CategoryChooserActivity.this,  PerformanceActivity.class);
+        startActivity(intent);
     }
 }

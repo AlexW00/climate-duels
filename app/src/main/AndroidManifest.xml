@@ -17,6 +17,9 @@
         android:theme="@style/Theme.ClimateDuels"
         tools:targetApi="31">
         <activity
+            android:name=".PerformanceActivity"
+            android:exported="false" />
+        <activity
             android:name=".CategoryChooserActivity"
             android:exported="false" />
         <activity
@@ -30,8 +33,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>
