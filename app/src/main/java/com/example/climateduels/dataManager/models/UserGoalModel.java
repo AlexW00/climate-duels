@@ -14,4 +14,9 @@ public class UserGoalModel extends GoalModel {
         this.currentCount = 0;
     }
 
+    // Getters
+
+    public int getCurrentCount() {
+        return currentCount;
+    }
 }

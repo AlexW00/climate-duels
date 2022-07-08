@@ -14,4 +14,14 @@ public class GoalModel {
         this.title = "Test title";
         this.targetCount = 5;
     }
+
+    // Getters
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getTargetCount() {
+        return targetCount;
+    }
 }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class GoalCategoryModel <T extends GoalModel>  {
 
-    String title;
-    String description;
-    ArrayList<T> goals;
+    protected String title;
+    protected String description;
+    protected ArrayList<T> goals;
 
     public GoalCategoryModel(String title, String description, ArrayList<T> goals) {
         this.title = title;
@@ -23,5 +23,19 @@ public class GoalCategoryModel <T extends GoalModel>  {
         this.goals.add((T) new GoalModel());
         this.goals.add((T) new GoalModel());
         this.goals.add((T) new GoalModel());
+    }
+
+    // Getters
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ArrayList<T> getGoals() {
+        return goals;
     }
 }

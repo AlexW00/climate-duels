@@ -5,7 +5,7 @@ import com.example.climateduels.dataManager.DatabaseObject;
 import java.util.ArrayList;
 
 public class WeeklyChallengeModel extends DatabaseObject {
-    ArrayList<GoalCategoryModel<UserGoalModel>> goalCategories;
+    protected ArrayList<GoalCategoryModel<UserGoalModel>> goalCategories;
 
     public WeeklyChallengeModel(ArrayList<GoalCategoryModel<UserGoalModel>> goalCategories) {
         this.goalCategories = goalCategories;
@@ -17,6 +17,12 @@ public class WeeklyChallengeModel extends DatabaseObject {
 
         this.goalCategories.add(new GoalCategoryModel<UserGoalModel>());
         this.goalCategories.add(new GoalCategoryModel<UserGoalModel>());
+    }
+
+    // Getters
+
+    public ArrayList<GoalCategoryModel<UserGoalModel>> getGoalCategories() {
+        return goalCategories;
     }
 
     @Override

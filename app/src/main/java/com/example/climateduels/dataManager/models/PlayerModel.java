@@ -21,6 +21,18 @@ public class PlayerModel extends DatabaseObject {
         this.weeklyChallenge = new WeeklyChallengeModel();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public WeeklyChallengeModel getWeeklyChallenge() {
+        return weeklyChallenge;
+    }
+
     @Override
     public void refreshData() {
 
