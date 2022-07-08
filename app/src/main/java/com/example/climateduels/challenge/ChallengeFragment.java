@@ -77,7 +77,7 @@ public class ChallengeFragment extends Fragment {
 
     private void onAddTravelButtonClicked() {
         int
-                travelMaxNum = 0, //TODO: get from DB
+                travelMaxNum = 1, //TODO: get from DB
                 travelCurrentNum = 0; //TODO: get from DB
         if(travelCurrentNum < travelMaxNum)
         {
@@ -98,7 +98,7 @@ public class ChallengeFragment extends Fragment {
 
     private void onAddEatButtonClicked() {
         int
-                eatMaxNum = 0, //TODO: get from DB
+                eatMaxNum = 1, //TODO: get from DB
                 eatCurrentNum = 0; //TODO: get from DB
         if(eatCurrentNum < eatMaxNum)
         {
