@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/challenge_tab"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_nature_people_24"
+        android:title="@string/bottom_bar_text_my_challenge"/>
+    <item
+        android:id="@+id/team_tab"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_people_24"
+        android:title="@string/bottom_bar_text_my_team"/>
+    <item
+        android:id="@+id/ranking_tab"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_public_24"
+        android:title="@string/bottom_bar_text_team_ranking"/>
+</menu>
