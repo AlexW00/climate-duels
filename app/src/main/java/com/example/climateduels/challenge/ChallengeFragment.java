@@ -72,13 +72,17 @@ public class ChallengeFragment extends Fragment {
     }
 
     private void fillUI() {
-
+        int
+                travelMaxNum = 0, //TODO: get from DB
+                travelCurrentNum = 0, //TODO: get from DB
+                eatMaxNum = 0, //TODO: get from DB
+                eatCurrentNum = 0; //TODO: get from DB
     }
 
     private void onAddTravelButtonClicked() {
         int
                 travelMaxNum = 1, //TODO: get from DB
-                travelCurrentNum = 0; //TODO: get from DB
+                travelCurrentNum = 1; //TODO: get from DB
         if(travelCurrentNum < travelMaxNum)
         {
             travelCurrentNum++; //TODO: Update DB
@@ -99,7 +103,7 @@ public class ChallengeFragment extends Fragment {
     private void onAddEatButtonClicked() {
         int
                 eatMaxNum = 1, //TODO: get from DB
-                eatCurrentNum = 0; //TODO: get from DB
+                eatCurrentNum = 1; //TODO: get from DB
         if(eatCurrentNum < eatMaxNum)
         {
             eatCurrentNum++; //TODO: Update DB
@@ -118,8 +122,7 @@ public class ChallengeFragment extends Fragment {
     }
 
     private void addPoints(double additionalPoints) {
-        points += additionalPoints;
-        //TODO: update DB
+        points += additionalPoints; //TODO: update DB
         weeklyPoints.setText((int) points + "/100 points");
     }
 
