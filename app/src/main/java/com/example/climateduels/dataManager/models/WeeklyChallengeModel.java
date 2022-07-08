@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class WeeklyChallengeModel extends DatabaseObject {
     protected ArrayList<GoalCategoryModel<UserGoalModel>> goalCategories;
 
+    private String playerName;
+    private String teamCode;
+
     public WeeklyChallengeModel(ArrayList<GoalCategoryModel<UserGoalModel>> goalCategories) {
         this.goalCategories = goalCategories;
     }
@@ -19,10 +22,21 @@ public class WeeklyChallengeModel extends DatabaseObject {
         this.goalCategories.add(new GoalCategoryModel<UserGoalModel>());
     }
 
+    public WeeklyChallengeModel(String playerName, String teamCode) {
+        this.playerName = playerName;
+        this.teamCode = teamCode;
+        initData();
+    }
+
     // Getters
 
     public ArrayList<GoalCategoryModel<UserGoalModel>> getGoalCategories() {
         return goalCategories;
+    }
+
+    @Override
+    protected String getTableName() {
+        return null;
     }
 
     @Override
@@ -32,6 +46,11 @@ public class WeeklyChallengeModel extends DatabaseObject {
 
     @Override
     protected void saveData() {
+
+    }
+
+    @Override
+    protected void initData() {
 
     }
 }

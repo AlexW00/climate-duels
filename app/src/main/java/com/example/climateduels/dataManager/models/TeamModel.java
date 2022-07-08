@@ -8,16 +8,13 @@ public class TeamModel extends DatabaseObject {
     String name;
     String code;
 
-    ArrayList<PlayerModel> normalPlayers;
-    ArrayList<PlayerModel> admins;
+    ArrayList<PlayerModel> players;
 
     ArrayList<GoalCategoryModel<GoalModel>> goalCategories;
 
-    public TeamModel(String name, String code, ArrayList<PlayerModel> normalPlayers, ArrayList<PlayerModel> admins, ArrayList<GoalCategoryModel<GoalModel>> goalCategories) {
+    public TeamModel(String name, String code, ArrayList<PlayerModel> admins, ArrayList<GoalCategoryModel<GoalModel>> goalCategories) {
         this.name = name;
         this.code = code;
-        this.normalPlayers = normalPlayers;
-        this.admins = admins;
         this.goalCategories = goalCategories;
     }
 
@@ -25,16 +22,11 @@ public class TeamModel extends DatabaseObject {
     public TeamModel() {
         this.name = "Test name";
         this.code = "abcdef";
-        this.normalPlayers = new ArrayList<PlayerModel>();
-        this.admins = new ArrayList<PlayerModel>();
+        this.players = new ArrayList<PlayerModel>();
 
-        this.normalPlayers.add(new PlayerModel());
-        this.normalPlayers.add(new PlayerModel());
-        this.normalPlayers.add(new PlayerModel());
-
-        this.admins.add(new PlayerModel());
-        this.admins.add(new PlayerModel());
-        this.admins.add(new PlayerModel());
+        this.players.add(new PlayerModel());
+        this.players.add(new PlayerModel());
+        this.players.add(new PlayerModel());
 
         this.goalCategories = new ArrayList<GoalCategoryModel<GoalModel>>();
         this.goalCategories.add(new GoalCategoryModel<GoalModel>());
@@ -51,13 +43,6 @@ public class TeamModel extends DatabaseObject {
         return code;
     }
 
-    public ArrayList<PlayerModel> getNormalPlayers() {
-        return normalPlayers;
-    }
-
-    public ArrayList<PlayerModel> getAdmins() {
-        return admins;
-    }
 
     public ArrayList<GoalCategoryModel<GoalModel>> getGoalCategories() {
         return goalCategories;
@@ -66,10 +51,12 @@ public class TeamModel extends DatabaseObject {
     // Special getters
 
     public ArrayList<PlayerModel> getPlayers() {
-        ArrayList<PlayerModel> players = new ArrayList<PlayerModel>();
-        players.addAll(normalPlayers);
-        players.addAll(admins);
         return players;
+    }
+
+    @Override
+    protected String getTableName() {
+        return null;
     }
 
     @Override
@@ -79,6 +66,11 @@ public class TeamModel extends DatabaseObject {
 
     @Override
     protected void saveData() {
+
+    }
+
+    @Override
+    protected void initData() {
 
     }
 }

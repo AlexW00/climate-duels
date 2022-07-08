@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.climateduels.dataManager.DataManager;
+import com.example.climateduels.dataManager.models.PlayerModel;
 import com.example.climateduels.database.Database;
 
 public class StartActivity extends AppCompatActivity {
@@ -29,6 +30,9 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DataManager.init();
+        PlayerModel p = DataManager.getPlayer("ABCDE", "Alex");
+        // print the object stringified
+
         initPreferences();
         initUI();
     }

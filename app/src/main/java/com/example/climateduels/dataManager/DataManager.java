@@ -4,6 +4,7 @@ import com.example.climateduels.dataManager.models.PlayerModel;
 import com.example.climateduels.dataManager.models.TeamModel;
 import com.example.climateduels.database.Database;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -16,27 +17,13 @@ public abstract class DataManager {
         database = new Database();
     }
 
-    public static PlayerModel getSelfPlayer(String teamCode, String playerName) {
-        String sql = "SELECT * FROM players WHERE team_code = ? AND player_name = ?";
-        PlayerModel player = null;
+    public static Connection getConnection() {
+        return database.connection;
+    }
 
-        try {
-            PreparedStatement statement = database.connection.prepareStatement(sql);
-            statement.setString(1, teamCode);
-            statement.setString(2, playerName);
-            ResultSet rs = statement.executeQuery();
-//            if (rs.next()) {
-//                player = new PlayerModel(
-//                        rs.getString("player_name"),
-//                        rs.getInt("total_score"),
-//                        getWeeklyChallenge(teamCode, playerName)
-//                );
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public static PlayerModel getPlayer(String teamCode, String playerName) {
         return new PlayerModel();
+        //return new PlayerModel(playerName, teamCode);
     }
 
     public static TeamModel getTeam(String teamCode) {
