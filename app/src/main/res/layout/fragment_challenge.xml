@@ -45,8 +45,7 @@
                 android:text="@string/fr_challenge_travel_title_placeholder"
                 />
             <TextView
-                style="@style/TextViewHeader2Appearance"
-                android:id="@+id/fr_challenge_travel_desc"
+                android:id="@+id/fr_challenge_travel_goal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fr_challenge_placeholder"
@@ -99,7 +98,7 @@
             />
         <TextView
             style="@style/TextViewHeader2Appearance"
-            android:id="@+id/fr_challenge_eat_desc"
+            android:id="@+id/fr_challenge_eat_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fr_challenge_placeholder"
