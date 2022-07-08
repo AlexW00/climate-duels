@@ -30,28 +30,15 @@ public class TeamFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_team, null);
-        //do whatever
-        return view;
+        return inflater.inflate(R.layout.fragment_team, null);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //final TextView message = view.findViewById(R.id.message);
-        //message.setText("Test");
-
         recyclerView = view.findViewById(recycler_menu);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new CustomAdapter(new String[]{"a", "b", "c"}));
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(TeamViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 }
