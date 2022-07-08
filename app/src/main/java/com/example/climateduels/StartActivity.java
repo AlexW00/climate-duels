@@ -2,11 +2,14 @@ package com.example.climateduels;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.climateduels.dataManager.DataManager;
 import com.example.climateduels.dataManager.models.PlayerModel;
@@ -23,6 +26,7 @@ public class StartActivity extends AppCompatActivity {
     public static final String
             TEAM_CODE_KEY = "TEAM_CODE",
             USER_NAME_KEY = "USER_NAME";
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,20 @@ public class StartActivity extends AppCompatActivity {
         //System.out.println(t.getName());
         // print the object stringified
 
+        initPreferences();
         initUI();
     }
+
+    private void initPreferences() {
+        sharedPreferences = getApplicationContext().getSharedPreferences(
+                getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
+        String teamCode = sharedPreferences.getString(getString(R.string.shared_pref_team_name), null),
+                userName = sharedPreferences.getString(getString(R.string.shared_pref_user_name), null);
+        if(teamCode!=null && userName != null){
+            startCategoryChooserActivity(teamCode, userName);
+        }
+    }
+
 
     private void initUI(){
         setContentView(R.layout.activity_start);
@@ -67,6 +83,17 @@ public class StartActivity extends AppCompatActivity {
         String
                 teamCode = teamCodeEdit.getText().toString(),
                 userName = userNameEdit.getText().toString();
+
+
+        if(userName.length()<=3){
+            showUsernameError();
+            return;
+        }
+        if(teamCode.length()!=5){//TODO Datamanager
+            showTeamCodeError();
+            return;
+        }
+
         /**
         if(DataManager.containsTeam(teamCode)) {
 
@@ -75,7 +102,22 @@ public class StartActivity extends AppCompatActivity {
 
         }
          */
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(getString(R.string.shared_pref_user_name), userName);
+        editor.putString(getString(R.string.shared_pref_team_name), teamCode);
+        editor.apply();
         startCategoryChooserActivity(teamCode, userName);
+    }
+
+    private void showTeamCodeError() {
+        Toast.makeText(StartActivity.this,
+                "Please put in a valid team code.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showUsernameError() {
+        Toast.makeText(StartActivity.this,
+                "Please choose a user name of length 3-20.", Toast.LENGTH_SHORT).show();
+
     }
 
     private void startCategoryChooserActivity(String teamCode, String userName) {
@@ -83,6 +125,7 @@ public class StartActivity extends AppCompatActivity {
         intent.putExtra(TEAM_CODE_KEY, teamCode);
         intent.putExtra(USER_NAME_KEY, userName);
         startActivity(intent);
+        finish();
     }
 
 

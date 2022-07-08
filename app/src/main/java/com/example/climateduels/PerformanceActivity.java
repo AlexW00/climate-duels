@@ -55,6 +55,7 @@ public class PerformanceActivity extends AppCompatActivity {
 
     private void switchToFragment(Fragment fr){
         FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
         fragmentManager.beginTransaction()
                 .replace(R.id.container_fragment_performance, fr)
                 .addToBackStack(null)

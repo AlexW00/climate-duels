@@ -8,12 +8,19 @@
     <string name="start_button_description_submit">Submit</string>
     <string name="category_header">Choose your categories</string>
     <string name="category_week">times per week</string>
+    <string name="shared_pref_key">shared pref</string>
+    <string name="shared_pref_user_name">user key</string>
+    <string name="shared_pref_team_name">team key</string>
 
     <integer name="start_max_team_code">5</integer>
     <integer name="start_max_name_len">20</integer>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="bottom_bar_text_my_challenge">My challenge</string>
     <string name="bottom_bar_text_my_team">My team</string>
     <string name="bottom_bar_text_team_ranking">Team ranking</string>
+    <string name="fr_challenge_header_weekly_challenges">Weekly challenges</string>
+    <string name="fr_challenge_travel_title_placeholder">FILL_TITLE</string>
+    <string name="fr_challenge_placeholder">FILL_DESC</string>
+    <string name="fr_challenge_score_text">Your score:</string>
+    <string name="fr_challenge_score_demo">FILL_SCORE</string>
 </resources>

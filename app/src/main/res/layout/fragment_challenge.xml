@@ -4,23 +4,168 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".challenge.ChallengeFragment">
+    tools:context=".challenge.ChallengeFragment"
+    android:layout_margin="12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
+            style="@style/TextViewTitleAppearance"
             android:id="@+id/message2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weekly Challenges"
+            android:text="@string/fr_challenge_header_weekly_challenges"
             android:textAlignment="center"
-            android:textSize="48sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/fr_challenge_lin_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.023" />
+<LinearLayout
+    app:layout_constraintTop_toBottomOf="@id/message2"
+    app:layout_constraintBottom_toBottomOf="@id/fr_challenge_score_title"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/fr_challenge_lin_top"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                style="@style/TextViewHeader1Appearance"
+                android:id="@+id/fr_challenge_travel_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fr_challenge_travel_title_placeholder"
+                />
+            <TextView
+                android:id="@+id/fr_challenge_travel_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fr_challenge_placeholder"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:weightSum="10">
+                <TextView
+                    style="@style/StandardTextAppearance"
+                    android:id="@+id/fr_challenge_travel_count_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_weight="3"/>
+                <ProgressBar
+                    android:id="@+id/fr_challenge_progressBar_travel"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:max="100"
+                    android:scaleY="6"
+                    android:progress="0"
+                    android:layout_weight="6"
+                    android:progressBackgroundTint="@color/light_green"
+                    android:backgroundTint="@color/green"
+                    android:progressTint="@color/green"
+                    />
+                <Button
+                    style="@style/ButtonAppearance"
+                    android:id="@+id/fr_challenge_button_travel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:layout_marginStart="8dp"
+                    android:textSize="30sp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            style="@style/TextViewHeader1Appearance"
+            android:id="@+id/fr_challenge_eat_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fr_challenge_travel_title_placeholder"
+            />
+        <TextView
+            style="@style/TextViewHeader2Appearance"
+            android:id="@+id/fr_challenge_eat_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fr_challenge_placeholder"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="10">
+            <TextView
+                style="@style/StandardTextAppearance"
+                android:id="@+id/fr_challenge_eat_count_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_weight="3"/>
+            <ProgressBar
+                android:id="@+id/fr_challenge_progressBar_eat"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:scaleY="6"
+                android:progress="0"
+                android:layout_marginStart="8dp"
+                android:layout_weight="6"
+                android:progressBackgroundTint="@color/light_green"
+                android:backgroundTint="@color/green"
+                android:progressTint="@color/green"/>
+            <Button
+                style="@style/ButtonAppearance"
+                android:id="@+id/fr_challenge_button_eat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:layout_marginStart="8dp"
+                android:textSize="30sp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+        <TextView
+            style="@style/TextViewHeader1Appearance"
+            app:layout_constraintTop_toBottomOf="@id/fr_challenge_lin_top"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/fr_challenge_score"
+            android:id="@+id/fr_challenge_score_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fr_challenge_score_text"/>
+        <TextView
+            style="@style/TextViewHeader2Appearance"
+            android:id="@+id/fr_challenge_score"
+            app:layout_constraintTop_toBottomOf="@id/fr_challenge_score_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fr_challenge_score_demo"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
