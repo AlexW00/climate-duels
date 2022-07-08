@@ -61,26 +61,27 @@ public class CategoryChooserActivity extends AppCompatActivity {
                 eatDescription = findViewById(R.id.text_eat_description);
 
 
-        TeamModel teamModel = DataManager.getTeam(teamCode);
-        ArrayList<GoalCategoryModel<GoalModel>> goalCategoryModels = teamModel.getGoalCategories();
-        GoalCategoryModel<GoalModel> travelModel = goalCategoryModels.get(0);
-        GoalCategoryModel<GoalModel> eatModel = goalCategoryModels.get(1);
+        DataManager.getTeam(teamCode, teamModel -> {
+            ArrayList<GoalCategoryModel<GoalModel>> goalCategoryModels = teamModel.getGoalCategories();
+            GoalCategoryModel<GoalModel> travelModel = goalCategoryModels.get(0);
+            GoalCategoryModel<GoalModel> eatModel = goalCategoryModels.get(1);
 
-        travelTitle.setText(travelModel.getTitle());
-        travelDescription.setText(travelModel.getDescription());
-        eatTitle.setText(eatModel.getTitle());
-        eatDescription.setText(eatModel.getDescription());
+            travelTitle.setText(travelModel.getTitle());
+            travelDescription.setText(travelModel.getDescription());
+            eatTitle.setText(eatModel.getTitle());
+            eatDescription.setText(eatModel.getDescription());
 
-        for (GoalModel goal : travelModel.getGoals()) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(goal.getTitle());
-            radioGroupTravel.addView(radioButton);
-        }
-        for (GoalModel goal : eatModel.getGoals()) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(goal.getTitle());
-            radioGroupEat.addView(radioButton);
-        }
+            for (GoalModel goal : travelModel.getGoals()) {
+                RadioButton radioButton = new RadioButton(this);
+                radioButton.setText(goal.getTitle());
+                radioGroupTravel.addView(radioButton);
+            }
+            for (GoalModel goal : eatModel.getGoals()) {
+                RadioButton radioButton = new RadioButton(this);
+                radioButton.setText(goal.getTitle());
+                radioGroupEat.addView(radioButton);
+            }
+        });
     }
 
     private void onSubmitButtonClicked() {

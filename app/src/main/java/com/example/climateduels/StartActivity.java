@@ -10,7 +10,9 @@ import android.widget.EditText;
 
 import com.example.climateduels.dataManager.DataManager;
 import com.example.climateduels.dataManager.models.PlayerModel;
+import com.example.climateduels.dataManager.models.TeamModel;
 import com.example.climateduels.database.Database;
+import com.google.gson.Gson;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -26,7 +28,23 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DataManager.init();
-        PlayerModel p = DataManager.getPlayer("ABCDE", "Alex");
+
+        System.out.println("**** StartActivity ****");
+        DataManager.getPlayer("ABCDE", "Alex", model -> {
+            System.out.println("GOT RESULT");
+            if (model != null) System.out.println("PlayerModel: " + new Gson().toJson(model));
+            else System.out.println("PlayerModel: null");
+        });
+
+        DataManager.getTeam("ABCDE", teamModel -> {
+            System.out.println("GOT TEAM RESULT");
+            if (teamModel != null) System.out.println("TeamModel: " + new Gson().toJson(teamModel));
+            else System.out.println("TeamModel is null");
+
+        });
+        //System.out.println(p.getTotalScore());
+        //TeamModel t = DataManager.getTeam("ABCDE");
+        //System.out.println(t.getName());
         // print the object stringified
 
         initUI();

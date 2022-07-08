@@ -2,10 +2,13 @@ package com.example.climateduels.dataManager.models;
 
 
 public class GoalModel {
+    int id;
+
     String title;
     int targetCount;
 
-    public GoalModel(String title, int targetCount) {
+    public GoalModel(int id, String title, int targetCount) {
+        this.id = id;
         this.title = title;
         this.targetCount = targetCount;
     }

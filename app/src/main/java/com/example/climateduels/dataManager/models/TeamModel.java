@@ -1,7 +1,10 @@
 package com.example.climateduels.dataManager.models;
 
+import com.example.climateduels.dataManager.DataManager;
 import com.example.climateduels.dataManager.DatabaseObject;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class TeamModel extends DatabaseObject {
@@ -12,29 +15,37 @@ public class TeamModel extends DatabaseObject {
 
     ArrayList<GoalCategoryModel<GoalModel>> goalCategories;
 
-    public TeamModel(String name, String code, ArrayList<PlayerModel> admins, ArrayList<GoalCategoryModel<GoalModel>> goalCategories) {
+    private TeamModel(String name, String code, ArrayList<PlayerModel> players, ArrayList<GoalCategoryModel<GoalModel>> goalCategories) {
         this.name = name;
         this.code = code;
+        this.players = players;
         this.goalCategories = goalCategories;
     }
 
-    // mock data constructor
-    public TeamModel() {
-        this.name = "Test name";
-        this.code = "abcdef";
-        this.players = new ArrayList<PlayerModel>();
-
-        this.players.add(new PlayerModel());
-        this.players.add(new PlayerModel());
-        this.players.add(new PlayerModel());
-
-        this.goalCategories = new ArrayList<GoalCategoryModel<GoalModel>>();
-        this.goalCategories.add(new GoalCategoryModel<GoalModel>());
-        this.goalCategories.add(new GoalCategoryModel<GoalModel>());
+    public static TeamModel asyncCreateTeamModel(String code) {
+        String name = asyncGetTeamName(code);
+        ArrayList<PlayerModel> players = PlayerModel.asyncCreatePlayerModel(code);
+        ArrayList<GoalCategoryModel<GoalModel>> goalCategories = GoalCategoryModel.asyncCreateGoalCategoryModel(code);
+        return new TeamModel(name, code, players, goalCategories);
     }
 
-    // Getters
+    private static String asyncGetTeamName(String code) {
+        String sql = "SELECT name FROM teams WHERE code=?";
 
+        try {
+            PreparedStatement statement = DataManager.getConnection().prepareStatement(sql);
+            statement.setString(1, code);
+
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) return rs.getString("name");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    // Getters
     public String getName() {
         return name;
     }
@@ -55,22 +66,25 @@ public class TeamModel extends DatabaseObject {
     }
 
     @Override
-    protected String getTableName() {
-        return null;
-    }
-
-    @Override
-    public void refreshData() {
+    public void refreshData(Void callback) {
 
     }
 
     @Override
-    protected void saveData() {
+    protected void saveData(Void callback) {
 
     }
 
-    @Override
-    protected void initData() {
-
-    }
+//    @Override
+//    protected void initData() {
+//        String sql = "SELECT * FROM " + getTableName() + " WHERE code = ?";
+//        try {
+//            PreparedStatement statement = DataManager.getConnection().prepareStatement(sql);
+//            statement.setString(1, code);
+//            ResultSet resultSet = statement.executeQuery();
+//            if (resultSet.next()) this.name = resultSet.getString("name");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

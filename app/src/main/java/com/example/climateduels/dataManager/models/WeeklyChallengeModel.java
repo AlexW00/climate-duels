@@ -14,18 +14,15 @@ public class WeeklyChallengeModel extends DatabaseObject {
         this.goalCategories = goalCategories;
     }
 
-    // mock data constructor
-    public WeeklyChallengeModel() {
-        this.goalCategories = new ArrayList();
 
-        this.goalCategories.add(new GoalCategoryModel<UserGoalModel>());
-        this.goalCategories.add(new GoalCategoryModel<UserGoalModel>());
-    }
-
-    public WeeklyChallengeModel(String playerName, String teamCode) {
+    public WeeklyChallengeModel(String playerName, String teamCode, ArrayList<GoalCategoryModel<UserGoalModel>> goalCategories) {
         this.playerName = playerName;
         this.teamCode = teamCode;
-        initData();
+    }
+
+    private static WeeklyChallengeModel asyncCreateWeeklyChallengeModel (String playerName, String teamCode) {
+        ArrayList<GoalCategoryModel<UserGoalModel>> goalCategories = GoalCategoryModel.asyncCreateUserGoalCategoryModel(playerName ,teamCode);
+        return new WeeklyChallengeModel(playerName, teamCode, goalCategories);
     }
 
     // Getters
@@ -35,22 +32,12 @@ public class WeeklyChallengeModel extends DatabaseObject {
     }
 
     @Override
-    protected String getTableName() {
-        return null;
+    public void refreshData(Void callback) {
     }
 
     @Override
-    public void refreshData() {
+    protected void saveData(Void callback) {
 
     }
 
-    @Override
-    protected void saveData() {
-
-    }
-
-    @Override
-    protected void initData() {
-
-    }
 }

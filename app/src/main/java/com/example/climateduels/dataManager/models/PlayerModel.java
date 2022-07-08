@@ -6,6 +6,7 @@ import com.example.climateduels.database.Database;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class PlayerModel extends DatabaseObject {
 
@@ -16,9 +17,7 @@ public class PlayerModel extends DatabaseObject {
     protected int totalScore;
     protected WeeklyChallengeModel weeklyChallenge;
 
-
-
-    public PlayerModel(String name, int totalScore, String teamCode, boolean isAdmin, WeeklyChallengeModel weeklyChallenge) {
+    private PlayerModel(String name, int totalScore, String teamCode, boolean isAdmin, WeeklyChallengeModel weeklyChallenge) {
         this.name = name;
         this.teamCode = teamCode;
         this.isAdmin = isAdmin;
@@ -26,20 +25,48 @@ public class PlayerModel extends DatabaseObject {
         this.weeklyChallenge = weeklyChallenge;
     }
 
-    public PlayerModel() {
-        this.name = "Test name";
-        this.teamCode ="abcde";
-        this.isAdmin = false;
-        this.totalScore = 30;
-        this.weeklyChallenge = new WeeklyChallengeModel();
+
+    public static PlayerModel asyncCreatePlayerModel(String name, String teamCode) {
+        String sql = "SELECT is_admin, score FROM players JOIN player_scores ON players.name=player_scores.player_name WHERE name=? AND players.team_code=?";
+
+        try {
+            PreparedStatement statement = DataManager.getConnection().prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setString(2, teamCode);
+
+            // print the statement
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) return new PlayerModel(name,rs.getInt("score"), teamCode, rs.getBoolean("is_admin"), null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public PlayerModel(String name, String teamCode) {
-        this.name = name;
-        this.teamCode = teamCode;
-        weeklyChallenge = new WeeklyChallengeModel();
-        initData();
+    public static ArrayList<PlayerModel> asyncCreatePlayerModel(String teamCode) {
+        String sql = "SELECT is_admin as is_admin, players.name as player_name, score FROM players JOIN player_scores ON players.name=player_scores.player_name WHERE players.team_code=?";
+
+        try {
+            PreparedStatement statement = DataManager.getConnection().prepareStatement(sql);
+            statement.setString(1, teamCode);
+
+            ResultSet rs = statement.executeQuery();
+
+            ArrayList<PlayerModel> players = new ArrayList<>();
+            while (rs.next()) {
+                String playerName = rs.getString("player_name");
+                int score = rs.getInt("score");
+                boolean isAdmin = rs.getBoolean("is_admin");
+
+                WeeklyChallengeModel weeklyChallengeModel = new WeeklyChallengeModel(GoalCategoryModel.asyncCreateUserGoalCategoryModel(playerName, teamCode));
+                players.add(new PlayerModel(playerName, score, teamCode, isAdmin, weeklyChallengeModel));
+            }
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
 
     public String getName() {
         return name;
@@ -49,40 +76,20 @@ public class PlayerModel extends DatabaseObject {
         return totalScore;
     }
 
+    public boolean getIsAdmin () {
+        return isAdmin;
+    }
+
     public WeeklyChallengeModel getWeeklyChallenge() {
         return weeklyChallenge;
     }
 
     @Override
-    protected String getTableName() {
-        return "climate_duels.\"players\"";
+    public void refreshData(Void callback) {
     }
 
     @Override
-    public void refreshData() {
-        initData();
-        this.weeklyChallenge.refreshData();
-    }
+    protected void saveData(Void callback) {
 
-    @Override
-    protected void saveData() {
-
-    }
-
-    @Override
-    protected void initData() {
-        String sql = "SELECT * FROM " + getTableName() + " WHERE team_code = ? AND player_name = ?";
-        try {
-            PreparedStatement statement = DataManager.getConnection().prepareStatement(sql);
-            statement.setString(1, this.teamCode);
-            statement.setString(2, this.name);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                this.totalScore = rs.getInt("score");
-                this.isAdmin = rs.getBoolean("isAdmin");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
