@@ -22,10 +22,7 @@ import com.example.climateduels.R;
 
 public class TeamFragment extends Fragment {
 
-    private TeamViewModel mViewModel;
-
     private RecyclerView recyclerView;
-
 
     @Nullable
     @Override
