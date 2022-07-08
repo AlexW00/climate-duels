@@ -84,8 +84,16 @@ public class CategoryChooserActivity extends AppCompatActivity {
     }
 
     private void onSubmitButtonClicked() {
-        int numTravel = Integer.parseInt(numTravelEdit.getText().toString()),
-                numEat = Integer.parseInt(numEatEdit.getText().toString());
+        String numTravelString = numTravelEdit.getText().toString(),
+                numEatString = numEatEdit.getText().toString();
+
+        if(numTravelString.length()==0 || numEatString.length()==0){
+            showErrorToastCounterEmpty();
+            return;
+        }
+
+        int numTravel = Integer.parseInt(numTravelString),
+                numEat = Integer.parseInt(numEatString);
 
         int travelRadioId = radioGroupTravel.getCheckedRadioButtonId(),
                 eatRadioId = radioGroupEat.getCheckedRadioButtonId();
@@ -112,6 +120,12 @@ public class CategoryChooserActivity extends AppCompatActivity {
     private void showErrorToastGoal() {
         Toast.makeText(CategoryChooserActivity.this,
                 "Please choose two goals", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void showErrorToastCounterEmpty() {
+        Toast.makeText(CategoryChooserActivity.this,
+                "Please enter goal counts", Toast.LENGTH_SHORT).show();
 
     }
 
