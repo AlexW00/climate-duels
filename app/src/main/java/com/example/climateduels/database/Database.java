@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 
 public class Database {
 
-    private Connection connection;
+    public Connection connection;
 
     private final String host = BuildConfig.HOST;
     private final String database = BuildConfig.DATABASE;
