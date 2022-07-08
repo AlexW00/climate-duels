@@ -2,6 +2,7 @@ package com.example.climateduels;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -48,11 +49,12 @@ public class StartActivity extends AppCompatActivity {
 
         }
          */
-
+        startCategoryChooserActivity();
     }
 
     private void startCategoryChooserActivity() {
-
+        Intent intent = new Intent(StartActivity.this, CategoryChooserActivity.class);
+        startActivity(intent);
     }
 
 
