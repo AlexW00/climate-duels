@@ -138,5 +138,6 @@ public class CategoryChooserActivity extends AppCompatActivity {
     private void startPerformanceActivity() {
         Intent intent = new Intent(CategoryChooserActivity.this,  PerformanceActivity.class);
         startActivity(intent);
+        finish();
     }
 }
