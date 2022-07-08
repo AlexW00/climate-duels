@@ -12,6 +12,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            style="@style/TextViewTitleAppearance"
             android:id="@+id/message2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,12 +38,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                style="@style/TextViewHeader1Appearance"
                 android:id="@+id/fr_challenge_travel_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fr_challenge_travel_title_placeholder"
                 />
             <TextView
+                style="@style/TextViewHeader2Appearance"
                 android:id="@+id/fr_challenge_travel_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,6 +58,7 @@
                 android:gravity="center"
                 android:weightSum="10">
                 <TextView
+                    style="@style/StandardTextAppearance"
                     android:id="@+id/fr_challenge_travel_count_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,11 +68,14 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:layout_editor_absoluteX="83dp"
-                    tools:layout_editor_absoluteY="103dp"
                     android:layout_marginStart="8dp"
-                    android:layout_weight="6"/>
+                    android:max="100"
+                    android:scaleY="6"
+                    android:progress="0"
+                    android:layout_weight="6"
+                    />
                 <Button
+                    style="@style/ButtonAppearance"
                     android:id="@+id/fr_challenge_button_travel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,12 +91,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+            style="@style/TextViewHeader1Appearance"
             android:id="@+id/fr_challenge_eat_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fr_challenge_travel_title_placeholder"
             />
         <TextView
+            style="@style/TextViewHeader2Appearance"
             android:id="@+id/fr_challenge_eat_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,6 +111,7 @@
             android:gravity="center"
             android:weightSum="10">
             <TextView
+                style="@style/StandardTextAppearance"
                 android:id="@+id/fr_challenge_eat_count_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,11 +121,13 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:layout_editor_absoluteX="83dp"
-                tools:layout_editor_absoluteY="103dp"
+                android:max="100"
+                android:scaleY="6"
+                android:progress="0"
                 android:layout_marginStart="8dp"
                 android:layout_weight="6"/>
             <Button
+                style="@style/ButtonAppearance"
                 android:id="@+id/fr_challenge_button_eat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -128,6 +140,7 @@
     </LinearLayout>
 </LinearLayout>
         <TextView
+            style="@style/TextViewHeader1Appearance"
             app:layout_constraintTop_toBottomOf="@id/fr_challenge_lin_top"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -137,6 +150,7 @@
             android:layout_height="wrap_content"
             android:text="@string/fr_challenge_score_text"/>
         <TextView
+            style="@style/TextViewHeader2Appearance"
             android:id="@+id/fr_challenge_score"
             app:layout_constraintTop_toBottomOf="@id/fr_challenge_score_title"
             app:layout_constraintStart_toStartOf="parent"

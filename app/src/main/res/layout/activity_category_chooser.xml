@@ -8,6 +8,7 @@
     android:layout_margin="12dp">
 
     <TextView
+        style="@style/TextViewTitleAppearance"
         android:id="@+id/category_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,12 +33,14 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/TextViewHeader1Appearance"
                 android:id="@+id/text_travel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
 
             <TextView
+                style="@style/TextViewHeader2Appearance"
                 android:id="@+id/text_travel_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,24 +53,25 @@
 
             <LinearLayout
                 android:id="@+id/category_lin_layout_travel_num"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_margin="12dp"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/category_travel_edit_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
+                    android:minWidth="80dp"
                     android:maxLength="2"
                     android:inputType="number" />
 
                 <TextView
+                    style="@style/StandardTextAppearance"
                     android:id="@+id/category_travel_num_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="@string/category_week" />
             </LinearLayout>
 
@@ -81,12 +85,14 @@
             android:layout_marginTop="50dp">
 
             <TextView
+                style="@style/TextViewHeader1Appearance"
                 android:id="@+id/text_eat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
 
             <TextView
+                style="@style/TextViewHeader2Appearance"
                 android:id="@+id/text_eat_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,24 +105,25 @@
 
             <LinearLayout
                 android:id="@+id/category_lin_layout_eat_num"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_margin="12dp"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/category_eat_edit_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:maxLength="2"
-                    android:ems="10"
+                    android:minWidth="80dp"
                     android:inputType="number" />
 
                 <TextView
+                    style="@style/StandardTextAppearance"
                     android:id="@+id/category_eat_num_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="@string/category_week" />
             </LinearLayout>
 
@@ -128,6 +135,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start_button_description_submit"
+        style="@style/ButtonAppearance"
         app:layout_constraintTop_toBottomOf="@id/category_lin_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
