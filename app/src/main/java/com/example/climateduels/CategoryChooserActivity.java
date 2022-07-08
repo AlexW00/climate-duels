@@ -120,19 +120,16 @@ public class CategoryChooserActivity extends AppCompatActivity {
     private void showErrorToastGoal() {
         Toast.makeText(CategoryChooserActivity.this,
                 "Please choose two goals", Toast.LENGTH_SHORT).show();
-
     }
 
     private void showErrorToastCounterEmpty() {
         Toast.makeText(CategoryChooserActivity.this,
                 "Please enter goal counts", Toast.LENGTH_SHORT).show();
-
     }
 
     private void showErrorToastCounter() {
         Toast.makeText(CategoryChooserActivity.this,
                 "Please use a time per week amount between 0 to 49", Toast.LENGTH_SHORT).show();
-
     }
 
     private void startPerformanceActivity() {

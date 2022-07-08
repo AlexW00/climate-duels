@@ -30,7 +30,9 @@ public class ChallengeFragment extends Fragment {
             travelTitle,
             travelGoal,
             eatTitle,
-            eatGoal;
+            eatGoal,
+            travelCount,
+            eatCount;
 
 
 
@@ -65,6 +67,8 @@ public class ChallengeFragment extends Fragment {
         travelGoal = view.findViewById(R.id.fr_challenge_travel_goal);
         eatTitle = view.findViewById(R.id.fr_challenge_eat_title);
         eatGoal = view.findViewById(R.id.fr_challenge_eat_goal);
+        travelCount = view.findViewById(R.id.fr_challenge_travel_count_text);
+        eatCount = view.findViewById(R.id.fr_challenge_eat_count_text);
     }
 
     private void fillUI() {
@@ -78,13 +82,14 @@ public class ChallengeFragment extends Fragment {
         if(travelCurrentNum < travelMaxNum)
         {
             travelCurrentNum++; //TODO: Update DB
-            addPoints(1/travelMaxNum);
+            addPoints(1/travelMaxNum * 50);
+            travelCount.setText(travelCurrentNum + "/" + travelMaxNum);
             updateProgressBarTravel(getProgress(travelCurrentNum, travelMaxNum));
         }
     }
 
     private double getProgress(int current, int max) {
-        double progress = current/max;
+        double progress = current/(double) max;
         if(progress > 1.0) {
             progress = 1.0;
         }
@@ -98,7 +103,8 @@ public class ChallengeFragment extends Fragment {
         if(eatCurrentNum < eatMaxNum)
         {
             eatCurrentNum++; //TODO: Update DB
-            addPoints(1/eatMaxNum);
+            addPoints(1/eatMaxNum * 50);
+            eatCount.setText(eatCurrentNum + "/" + eatMaxNum);
             updateProgressBarEat(getProgress(eatCurrentNum, eatMaxNum));
         }
     }
