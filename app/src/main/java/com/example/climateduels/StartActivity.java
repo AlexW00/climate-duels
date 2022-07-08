@@ -16,6 +16,9 @@ public class StartActivity extends AppCompatActivity {
     private EditText
             teamCodeEdit,
             userNameEdit;
+    public static final String
+            TEAM_CODE_KEY = "TEAM_CODE",
+            USER_NAME_KEY = "USER_NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +52,13 @@ public class StartActivity extends AppCompatActivity {
 
         }
          */
-        startCategoryChooserActivity();
+        startCategoryChooserActivity(teamCode, userName);
     }
 
-    private void startCategoryChooserActivity() {
+    private void startCategoryChooserActivity(String teamCode, String userName) {
         Intent intent = new Intent(StartActivity.this, CategoryChooserActivity.class);
+        intent.putExtra(TEAM_CODE_KEY, teamCode);
+        intent.putExtra(USER_NAME_KEY, userName);
         startActivity(intent);
     }
 

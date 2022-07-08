@@ -20,9 +20,9 @@ public class GoalCategoryModel <T extends GoalModel>  {
         this.description = "Test description";
         this.goals = new ArrayList<T>();
 
-        this.goals.add((T) new GoalModel());
-        this.goals.add((T) new GoalModel());
-        this.goals.add((T) new GoalModel());
+        this.goals.add((T) new GoalModel("title1", 0));
+        this.goals.add((T) new GoalModel("title2", 0));
+        this.goals.add((T) new GoalModel("title3", 0));
     }
 
     // Getters
