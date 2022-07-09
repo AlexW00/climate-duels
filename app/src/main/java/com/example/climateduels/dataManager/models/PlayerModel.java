@@ -36,7 +36,10 @@ public class PlayerModel extends DatabaseObject {
 
             // print the statement
             ResultSet rs = statement.executeQuery();
-            if (rs.next()) return new PlayerModel(name,rs.getInt("score"), teamCode, rs.getBoolean("is_admin"), null);
+            if (rs.next()) {
+                WeeklyChallengeModel weeklyChallenge = WeeklyChallengeModel.asyncCreateWeeklyChallengeModel(name, teamCode);
+                return new PlayerModel(name, rs.getInt("score"), teamCode, rs.getBoolean("is_admin"), weeklyChallenge);
+            };
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,9 +61,11 @@ public class PlayerModel extends DatabaseObject {
                 int score = rs.getInt("score");
                 boolean isAdmin = rs.getBoolean("is_admin");
 
-                WeeklyChallengeModel weeklyChallengeModel = new WeeklyChallengeModel(GoalCategoryModel.asyncCreateUserGoalCategoryModel(playerName, teamCode));
+                WeeklyChallengeModel weeklyChallengeModel = new WeeklyChallengeModel(playerName, teamCode, GoalCategoryModel.asyncCreateUserGoalCategoryModel(playerName, teamCode));
                 players.add(new PlayerModel(playerName, score, teamCode, isAdmin, weeklyChallengeModel));
             }
+
+            return players;
             } catch (Exception e) {
             e.printStackTrace();
         }

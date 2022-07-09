@@ -1,5 +1,7 @@
 package com.example.climateduels.challenge;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.climateduels.R;
+import com.example.climateduels.dataManager.DataManager;
+import com.example.climateduels.dataManager.models.GoalCategoryModel;
+import com.example.climateduels.dataManager.models.PlayerModel;
+import com.example.climateduels.dataManager.models.UserGoalModel;
+import com.example.climateduels.dataManager.models.WeeklyChallengeModel;
+import com.google.gson.Gson;
 
 public class ChallengeFragment extends Fragment {
 
@@ -33,15 +41,24 @@ public class ChallengeFragment extends Fragment {
             eatGoal,
             travelCount,
             eatCount;
-
+    private WeeklyChallengeModel weeklyChallengeModel;
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_challenge, container, false);
-        initUI(view);
-        fillUI();
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(
+                getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
+        String teamCode = sharedPreferences.getString(getString(R.string.shared_pref_team_name), null),
+                userName = sharedPreferences.getString(getString(R.string.shared_pref_user_name), null);
+
+        DataManager.getPlayer(teamCode, userName, playerModel -> {
+            this.weeklyChallengeModel = playerModel.getWeeklyChallenge();
+            initUI(view);
+            fillUI();
+        });
+
         return view;
     }
 
@@ -72,17 +89,34 @@ public class ChallengeFragment extends Fragment {
     }
 
     private void fillUI() {
+        System.out.println(new Gson().toJson(weeklyChallengeModel));
+
+        UserGoalModel travelGoal = weeklyChallengeModel.getGoalCategories().get(0).getGoals().get(0);
+        UserGoalModel eatGoal = weeklyChallengeModel.getGoalCategories().get(1).getGoals().get(0);
+        String travelTitle = travelGoal.getTitle(),
+                eatTitle = eatGoal.getTitle();
+
+        this.travelTitle.setText(travelTitle);
+        this.eatTitle.setText(eatTitle);
+
         int
-                travelMaxNum = 0, //TODO: get from DB
-                travelCurrentNum = 0, //TODO: get from DB
-                eatMaxNum = 0, //TODO: get from DB
-                eatCurrentNum = 0; //TODO: get from DB
+                travelMaxNum = travelGoal.getTargetCount(),
+                travelCurrentNum = travelGoal.getCurrentCount(),
+                eatMaxNum = eatGoal.getTargetCount(),
+                eatCurrentNum = eatGoal.getCurrentCount();
+        this.travelGoal.setText(Integer.toString(travelMaxNum));
+        this.eatGoal.setText(Integer.toString(eatMaxNum));
+        travelCount.setText(Integer.toString(travelCurrentNum));
+        eatCount.setText(Integer.toString(eatCurrentNum));
+
+        int weeklyPoints = weeklyChallengeModel.getTotalScore();
+        this.weeklyPoints.setText(Integer.toString(weeklyPoints));
     }
 
     private void onAddTravelButtonClicked() {
-        int
-                travelMaxNum = 1, //TODO: get from DB
-                travelCurrentNum = 1; //TODO: get from DB
+        UserGoalModel travelGoal = weeklyChallengeModel.getGoalCategories().get(0).getGoals().get(0);
+        int travelMaxNum = travelGoal.getTargetCount(),
+                travelCurrentNum = travelGoal.getCurrentCount();
         if(travelCurrentNum < travelMaxNum)
         {
             travelCurrentNum++; //TODO: Update DB
@@ -101,9 +135,9 @@ public class ChallengeFragment extends Fragment {
     }
 
     private void onAddEatButtonClicked() {
-        int
-                eatMaxNum = 1, //TODO: get from DB
-                eatCurrentNum = 1; //TODO: get from DB
+        UserGoalModel eatGoal = weeklyChallengeModel.getGoalCategories().get(1).getGoals().get(0);
+        int eatMaxNum = eatGoal.getTargetCount(),
+                eatCurrentNum = eatGoal.getCurrentCount();
         if(eatCurrentNum < eatMaxNum)
         {
             eatCurrentNum++; //TODO: Update DB

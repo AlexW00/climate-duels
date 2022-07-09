@@ -16,6 +16,7 @@ import com.example.climateduels.dataManager.DataManager;
 import com.example.climateduels.dataManager.models.GoalCategoryModel;
 import com.example.climateduels.dataManager.models.GoalModel;
 import com.example.climateduels.dataManager.models.TeamModel;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -62,6 +63,9 @@ public class CategoryChooserActivity extends AppCompatActivity {
 
 
         DataManager.getTeam(teamCode, teamModel -> {
+
+            System.out.println("**** CategoryChooserActivity ****");
+            System.out.println(new Gson().toJson(teamModel));
             ArrayList<GoalCategoryModel<GoalModel>> goalCategoryModels = teamModel.getGoalCategories();
             GoalCategoryModel<GoalModel> travelModel = goalCategoryModels.get(0);
             GoalCategoryModel<GoalModel> eatModel = goalCategoryModels.get(1);

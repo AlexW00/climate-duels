@@ -34,18 +34,7 @@ public class StartActivity extends AppCompatActivity {
         DataManager.init();
 
         System.out.println("**** StartActivity ****");
-        DataManager.getPlayer("ABCDE", "Alex", model -> {
-            System.out.println("GOT RESULT");
-            if (model != null) System.out.println("PlayerModel: " + new Gson().toJson(model));
-            else System.out.println("PlayerModel: null");
-        });
 
-        DataManager.getTeam("ABCDE", teamModel -> {
-            System.out.println("GOT TEAM RESULT");
-            if (teamModel != null) System.out.println("TeamModel: " + new Gson().toJson(teamModel));
-            else System.out.println("TeamModel is null");
-
-        });
         //System.out.println(p.getTotalScore());
         //TeamModel t = DataManager.getTeam("ABCDE");
         //System.out.println(t.getName());

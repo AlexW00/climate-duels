@@ -18,9 +18,10 @@ public class WeeklyChallengeModel extends DatabaseObject {
     public WeeklyChallengeModel(String playerName, String teamCode, ArrayList<GoalCategoryModel<UserGoalModel>> goalCategories) {
         this.playerName = playerName;
         this.teamCode = teamCode;
+        this.goalCategories = goalCategories;
     }
 
-    private static WeeklyChallengeModel asyncCreateWeeklyChallengeModel (String playerName, String teamCode) {
+    public static WeeklyChallengeModel asyncCreateWeeklyChallengeModel (String playerName, String teamCode) {
         ArrayList<GoalCategoryModel<UserGoalModel>> goalCategories = GoalCategoryModel.asyncCreateUserGoalCategoryModel(playerName ,teamCode);
         return new WeeklyChallengeModel(playerName, teamCode, goalCategories);
     }
@@ -29,6 +30,16 @@ public class WeeklyChallengeModel extends DatabaseObject {
 
     public ArrayList<GoalCategoryModel<UserGoalModel>> getGoalCategories() {
         return goalCategories;
+    }
+
+    public int getTotalScore() {
+        float totalScore = 0;
+        int numberOfGoals = 0;
+        for (GoalCategoryModel<UserGoalModel> goalCategory : goalCategories) {
+            totalScore += goalCategory.getGoals().get(0).getPercentageComplete();
+            numberOfGoals++;
+        }
+        return (int) (totalScore / numberOfGoals);
     }
 
     @Override

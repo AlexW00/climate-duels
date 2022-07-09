@@ -8,6 +8,7 @@ import com.example.climateduels.dataManager.models.ModelCallback;
 import com.example.climateduels.dataManager.models.PlayerModel;
 import com.example.climateduels.dataManager.models.TeamModel;
 import com.example.climateduels.database.Database;
+import com.google.gson.Gson;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -21,11 +22,15 @@ public abstract class DataManager {
         database = new Database();
     }
 
+    private static PlayerModel cachedPlayerModel;
+    private static TeamModel cachedTeamModel;
+
     public static Connection getConnection() {
         return database.connection;
     }
 
     public static void getPlayer (String teamCode, String playerName, ModelCallback<PlayerModel> callback) {
+        if (cachedPlayerModel != null) callback.onComplete(cachedPlayerModel);
         AsyncTask<String, Void, PlayerModel> task = new AsyncTask<String, Void, PlayerModel>() {
             @Override
             protected PlayerModel doInBackground(String... params) {
@@ -34,6 +39,7 @@ public abstract class DataManager {
 
             @Override protected void onPostExecute(PlayerModel player) {
                 super.onPostExecute(player);
+                cachedPlayerModel = player;
                 callback.onComplete(player);
             }
         };
@@ -41,6 +47,7 @@ public abstract class DataManager {
     }
 
     public static void getTeam(String teamCode, ModelCallback<TeamModel> callback) {
+        if (cachedTeamModel != null) callback.onComplete(cachedTeamModel);
         AsyncTask<String, Void, TeamModel> task = new AsyncTask<String, Void, TeamModel>() {
             @Override
             protected TeamModel doInBackground(String... params) {
@@ -49,6 +56,9 @@ public abstract class DataManager {
 
             @Override protected void onPostExecute(TeamModel team) {
                 super.onPostExecute(team);
+                cachedTeamModel = team;
+                System.out.println("***** Team");
+                System.out.println("team: " + team.getPlayers().size());
                 callback.onComplete(team);
             }
         };

@@ -5,6 +5,7 @@ import static com.example.climateduels.R.id.recycler_menu;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.climateduels.R;
+import com.example.climateduels.dataManager.DataManager;
+import com.example.climateduels.dataManager.models.PlayerModel;
+
+import java.util.ArrayList;
 
 public class TeamFragment extends Fragment {
 
@@ -33,12 +38,23 @@ public class TeamFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView = view.findViewById(recycler_menu);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new CustomAdapter(new String[]{
-                "1   Max Muster       300",
-                "2   John Doe         290",
-                "3   Mr. Bronze       280"}));
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(
+                getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
+        String teamCode = sharedPreferences.getString(getString(R.string.shared_pref_team_name), null);
+
+        DataManager.getTeam(teamCode, teamModel -> {
+            recyclerView = view.findViewById(recycler_menu);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            ArrayList<String> teamMembers = new ArrayList<>();
+            for (PlayerModel playerModel : teamModel.getPlayers()) {
+                String content = playerModel.getName();
+                content += " " + playerModel.getTotalScore();
+                teamMembers.add(content);
+            }
+            recyclerView.setAdapter(new CustomAdapter(teamMembers.toArray(new String[teamMembers.size()])));
+
+
+    });
     }
 
 }

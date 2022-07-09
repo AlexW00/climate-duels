@@ -70,6 +70,51 @@ public class GoalCategoryModel <T extends GoalModel>  {
     }
 
     public static ArrayList<GoalCategoryModel<UserGoalModel>> asyncCreateUserGoalCategoryModel (String playerName, String teamCode) {
+
+        String sql = "SELECT goal_categories.id as goal_category_id, goal_categories.title as goal_category_title, goal_categories.description as goal_category_description, goals.id as goal_id, goals.title as goal_title, goals.target_count as goal_target_count, player_goals.id as player_goals_id, player_goal_count.current_count as goal_current_count FROM player_goals JOIN goals ON player_goals.goal_id=goals.id JOIN player_goal_count ON player_goals.id=player_goal_count.player_goal_id JOIN goal_categories ON goals.goal_category_id=goal_categories.id WHERE player_goals.player_name=? AND player_goals.team_code=?";
+
+        try {
+            PreparedStatement statement = DataManager.getConnection().prepareStatement(sql);
+
+            statement.setString(1, playerName);
+            statement.setString(2, teamCode);
+            System.out.println(statement.toString());
+            ResultSet rs = statement.executeQuery();
+            // Loop over rs
+            ArrayList<GoalCategoryModel<UserGoalModel>> goalCategories = new ArrayList<>();
+            while (rs.next()) {
+                System.out.println("rs.next()");
+                int user_goal_id = rs.getInt("player_goals_id");
+                int goal_id = rs.getInt("goal_id");
+                String title = rs.getString("goal_title");
+                int targetCount = rs.getInt("goal_target_count");
+                int currentCount = rs.getInt("goal_current_count");
+
+                UserGoalModel userGoalModel = new UserGoalModel(user_goal_id, goal_id, title, targetCount, currentCount);
+
+                int goal_category_id = rs.getInt("goal_category_id");
+                String goal_category_title = rs.getString("goal_category_title");
+                String goal_category_description = rs.getString("goal_category_description");
+                int index = -1;
+                for (int i = 0; i < goalCategories.size(); i++) {
+                    if (goalCategories.get(i).id == goal_category_id) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index != -1) {
+                    goalCategories.get(index).pushGoal(userGoalModel);
+                } else {
+                    ArrayList<UserGoalModel> goals = new ArrayList<>();
+                    goals.add(userGoalModel);
+                    goalCategories.add(new GoalCategoryModel<UserGoalModel>(goal_category_id, goal_category_title, goal_category_description, goals));
+                }
+            }
+            System.out.println("Returning: " + goalCategories.size());
+            return  goalCategories;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

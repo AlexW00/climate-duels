@@ -21,4 +21,8 @@ public class UserGoalModel extends GoalModel {
     public int getCurrentCount() {
         return currentCount;
     }
+
+    public int getPercentageComplete() {
+        return (int) (((double) currentCount / (double) targetCount) * 100);
+    }
 }
