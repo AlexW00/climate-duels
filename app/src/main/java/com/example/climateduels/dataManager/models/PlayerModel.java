@@ -8,7 +8,9 @@ import com.example.climateduels.dataManager.DatabaseObject;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PlayerModel extends DatabaseObject {
 
@@ -94,6 +96,82 @@ public class PlayerModel extends DatabaseObject {
         return false;
     }
 
+    public static PlayerModel asyncCreateNewPlayer (String name, String team_code, int goal_id_1, int goal_id_2, int goal_target_count_1, int goal_target_count_2) {
+
+        try {
+            String createPlayerSql = "INSERT INTO players (name, team_code, is_admin) VALUES (?, ?, ?)";
+            PreparedStatement createPlayerStatement = DataManager.getConnection().prepareStatement(createPlayerSql);
+            createPlayerStatement.setString(1, name);
+            createPlayerStatement.setString(2, team_code);
+            createPlayerStatement.setBoolean(3, false);
+            createPlayerStatement.executeUpdate();
+
+            // player_scores
+            String createPlayerScoreSql = "INSERT INTO player_scores (player_name, team_code, score) VALUES (?, ?, ?)";
+            PreparedStatement createPlayerScoreStatement = DataManager.getConnection().prepareStatement(createPlayerScoreSql);
+            createPlayerScoreStatement.setString(1, name);
+            createPlayerScoreStatement.setString(2, team_code);
+            createPlayerScoreStatement.setInt(3, 0);
+            createPlayerScoreStatement.executeUpdate();
+
+            // player_goals
+            //int goal_id;
+            //int goal_target_count;
+            String createPlayerGoal1Sql = "INSERT INTO player_goals (player_name, team_code, goal_id, target_count) VALUES (?, ?, ?, ?)";
+            PreparedStatement createPlayerGoal1Statement = DataManager.getConnection().prepareStatement(createPlayerGoal1Sql);
+            createPlayerGoal1Statement.setString(1, name);
+            createPlayerGoal1Statement.setString(2, team_code);
+            createPlayerGoal1Statement.setInt(3, goal_id_1);
+            createPlayerGoal1Statement.setInt(4, goal_target_count_1);
+            createPlayerGoal1Statement.executeUpdate();
+
+            String createPlayerGoal2Sql = "INSERT INTO player_goals (player_name, team_code, goal_id, target_count) VALUES (?, ?, ?, ?)";
+            PreparedStatement createPlayerGoal2Statement = DataManager.getConnection().prepareStatement(createPlayerGoal2Sql);
+            createPlayerGoal2Statement.setString(1, name);
+            createPlayerGoal2Statement.setString(2, team_code);
+            createPlayerGoal2Statement.setInt(3, goal_id_2);
+            createPlayerGoal2Statement.setInt(4, goal_target_count_2);
+            createPlayerGoal2Statement.executeUpdate();
+
+            // retrieve the ids of the newly created player_goals
+            String getPlayerGoalIdsSql = "SELECT id FROM player_goals WHERE player_name=? AND team_code=?";
+            PreparedStatement getPlayerGoalIdsStatement = DataManager.getConnection().prepareStatement(getPlayerGoalIdsSql);
+            getPlayerGoalIdsStatement.setString(1, name);
+            getPlayerGoalIdsStatement.setString(2, team_code);
+            ResultSet rs = getPlayerGoalIdsStatement.executeQuery();
+
+            int player_goal_id_1 = -1;
+            int player_goal_id_2 = -1;
+            while (rs.next()) {
+                if (player_goal_id_1 == -1) {
+                    player_goal_id_1 = rs.getInt("id");
+                } else {
+                    player_goal_id_2 = rs.getInt("id");
+                }
+            }
+
+            String createPlayerGoalCount1Sql = "INSERT INTO player_goal_count (player_goal_id, current_count, date) VALUES (?, ?, ?)";
+            PreparedStatement createPlayerGoalCount1PreparedStatement = DataManager.getConnection().prepareStatement(createPlayerGoalCount1Sql);
+            createPlayerGoalCount1PreparedStatement.setInt(1, player_goal_id_1);
+            createPlayerGoalCount1PreparedStatement.setInt(2, 0);
+            createPlayerGoalCount1PreparedStatement.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+            createPlayerGoalCount1PreparedStatement.executeUpdate();
+
+            String createPlayerGoalCount2Sql = "INSERT INTO player_goal_count (player_goal_id, current_count, date) VALUES (?, ?, ?)";
+            PreparedStatement createPlayerGoalCount2PreparedStatement = DataManager.getConnection().prepareStatement(createPlayerGoalCount2Sql);
+            createPlayerGoalCount2PreparedStatement.setInt(1, player_goal_id_2);
+            createPlayerGoalCount2PreparedStatement.setInt(2, 0);
+            createPlayerGoalCount2PreparedStatement.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+            createPlayerGoalCount2PreparedStatement.executeUpdate();
+
+            return PlayerModel.asyncCreatePlayerModel(name, team_code);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    return null;
+    }
+
 
     // Getters
     public String getName() {
@@ -144,5 +222,28 @@ public class PlayerModel extends DatabaseObject {
             }
         };
         task.execute(name, teamCode, Integer.toString(totalScore));
+    }
+
+
+    public static void createNewPlayer(String name, String team_code, int goal_id_1, int goal_id_2, int goal_target_count_1, int goal_target_count_2, ModelCallback<PlayerModel> callback) {
+        AsyncTask<String, Void, PlayerModel> task = new AsyncTask<String, Void, PlayerModel>() {
+            @Override
+            protected PlayerModel doInBackground(String... params) {
+                return asyncCreateNewPlayer(
+                        params[0],
+                        params[1],
+                        Integer.parseInt(params[2]),
+                        Integer.parseInt(params[3]),
+                        Integer.parseInt(params[4]),
+                        Integer.parseInt(params[5])
+                );
+            }
+
+            @Override protected void onPostExecute(PlayerModel playerModel) {
+                super.onPostExecute(playerModel);
+                if(callback!=null) callback.onComplete(playerModel);
+            }
+        };
+        task.execute(name, team_code, Integer.toString(goal_id_1),  Integer.toString(goal_id_2), Integer.toString(goal_target_count_1), Integer.toString(goal_target_count_2));
     }
 }

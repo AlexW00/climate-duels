@@ -10,11 +10,13 @@ import java.sql.PreparedStatement;
 public class UserGoalModel extends GoalModel {
     int user_goal_id;
     int currentCount;
+    int targetCount;
 
     public UserGoalModel(int user_goal_id, int goal_id, String title, int targetCount, int currentCount) {
-        super(goal_id, title, targetCount);
+        super(goal_id, title);
         this.user_goal_id = user_goal_id;
         this.currentCount = currentCount;
+        this.targetCount = targetCount;
     }
 
     // static async sql methods
@@ -40,6 +42,10 @@ public class UserGoalModel extends GoalModel {
 
     public int getPercentageComplete() {
         return (int) (((double) currentCount / (double) targetCount) * 100);
+    }
+
+    public int getTargetCount() {
+        return targetCount;
     }
 
     // Special getters

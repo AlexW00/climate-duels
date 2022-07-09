@@ -29,8 +29,8 @@ public class GoalCategoryModel <T extends GoalModel> extends DatabaseObject {
 
 
     public static ArrayList<GoalCategoryModel<GoalModel>> asyncCreateGoalCategoryModel (String teamCode) {
-
-        String sql = "SELECT goal_categories.id as goal_category_id, goal_categories.title as goal_category_title, goal_categories.description as goal_category_description, goals.id as goal_id, goals.title as goal_title, goals.target_count as goal_target_count FROM goals JOIN goal_categories ON goals.goal_category_id=goal_categories.id WHERE goal_categories.team_code = ?";
+        System.out.println("Creating goal categories for team " + teamCode);
+        String sql = "SELECT goal_categories.id as goal_category_id, goal_categories.title as goal_category_title, goal_categories.description as goal_category_description, goals.id as goal_id, goals.title as goal_title FROM goals JOIN goal_categories ON goals.goal_category_id=goal_categories.id WHERE goal_categories.team_code = ?";
         try {
             PreparedStatement statement = DataManager.getConnection().prepareStatement(sql);
             statement.setString(1, teamCode);
@@ -42,8 +42,7 @@ public class GoalCategoryModel <T extends GoalModel> extends DatabaseObject {
             while (rs.next()) {
                 int goal_id = rs.getInt("goal_id");
                 String goal_title = rs.getString("goal_title");
-                int goal_target_count = rs.getInt("goal_target_count");
-                GoalModel goalModel = new GoalModel(goal_id, goal_title, goal_target_count);
+                GoalModel goalModel = new GoalModel(goal_id, goal_title);
 
 
                 int goal_category_id = rs.getInt("goal_category_id");
@@ -73,7 +72,7 @@ public class GoalCategoryModel <T extends GoalModel> extends DatabaseObject {
 
     public static ArrayList<GoalCategoryModel<UserGoalModel>> asyncCreateUserGoalCategoryModel (String playerName, String teamCode) {
 
-        String sql = "SELECT goal_categories.id as goal_category_id, goal_categories.title as goal_category_title, goal_categories.description as goal_category_description, goals.id as goal_id, goals.title as goal_title, goals.target_count as goal_target_count, player_goals.id as player_goals_id, player_goal_count.current_count as goal_current_count FROM player_goals JOIN goals ON player_goals.goal_id=goals.id JOIN player_goal_count ON player_goals.id=player_goal_count.player_goal_id JOIN goal_categories ON goals.goal_category_id=goal_categories.id WHERE player_goals.player_name=? AND player_goals.team_code=?";
+        String sql = "SELECT goal_categories.id as goal_category_id, goal_categories.title as goal_category_title, goal_categories.description as goal_category_description, goals.id as goal_id, goals.title as goal_title, player_goals.target_count as goal_target_count, player_goals.id as player_goals_id, player_goal_count.current_count as goal_current_count FROM player_goals JOIN goals ON player_goals.goal_id=goals.id JOIN player_goal_count ON player_goals.id=player_goal_count.player_goal_id JOIN goal_categories ON goals.goal_category_id=goal_categories.id WHERE player_goals.player_name=? AND player_goals.team_code=?";
 
         try {
             PreparedStatement statement = DataManager.getConnection().prepareStatement(sql);

@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.example.climateduels.dataManager.DataManager;
 import com.example.climateduels.dataManager.models.GoalCategoryModel;
 import com.example.climateduels.dataManager.models.GoalModel;
+import com.example.climateduels.dataManager.models.PlayerModel;
+import com.example.climateduels.dataManager.models.TeamModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class CategoryChooserActivity extends AppCompatActivity {
             numEatEdit;
     private RadioGroup radioGroupTravel, radioGroupEat;
     private String teamCode, userName;
+    private TeamModel teamModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +64,8 @@ public class CategoryChooserActivity extends AppCompatActivity {
                 eatDescription = findViewById(R.id.text_eat_description);
 
 
-        DataManager.getTeamCached(teamCode, teamModel -> {
-
-            System.out.println("**** CategoryChooserActivity ****");
-            System.out.println(new Gson().toJson(teamModel));
+        DataManager.getTeamCached(teamCode, tm -> {
+            this.teamModel = tm;
             ArrayList<GoalCategoryModel<GoalModel>> goalCategoryModels = teamModel.getGoalCategories();
             GoalCategoryModel<GoalModel> travelModel = goalCategoryModels.get(0);
             GoalCategoryModel<GoalModel> eatModel = goalCategoryModels.get(1);
@@ -113,12 +114,38 @@ public class CategoryChooserActivity extends AppCompatActivity {
                 selectedEat = findViewById(eatRadioId);
         String selectedTravelText = selectedTravel.getText().toString(),
                 selectedEatText = selectedEat.getText().toString();
+        GoalModel selectedTravelGoal = null;
+        GoalModel selectedEatGoal = null;
 
-        //TODO SAVE TO DATAMANAGER
-        Toast.makeText(CategoryChooserActivity.this, selectedTravelText+" "+selectedEatText, Toast.LENGTH_SHORT).show();
-        Toast.makeText(CategoryChooserActivity.this, numTravel+" "+numEat, Toast.LENGTH_SHORT).show();
+        for(GoalModel goal : teamModel.getGoalCategories().get(0).getGoals()){
+            if(goal.getTitle().equals(selectedTravelText)){
+                selectedTravelGoal = goal;
+                break;
+            }
+        }
 
-        startPerformanceActivity();
+        for(GoalModel goal : teamModel.getGoalCategories().get(1).getGoals()){
+            if(goal.getTitle().equals(selectedEatText)){
+                selectedEatGoal = goal;
+                break;
+            }
+        }
+
+        if (selectedTravelGoal != null & selectedEatGoal != null) {
+            PlayerModel.createNewPlayer(
+                    userName,
+                    teamCode,
+                    selectedTravelGoal.getId(),
+                    selectedEatGoal.getId(),
+                    numTravel,
+                    numEat,
+                    playerModel -> {
+                        startPerformanceActivity();
+                    }
+            );
+        } else {
+            showErrorToastGoal();
+        }
     }
 
     private void showErrorToastGoal() {

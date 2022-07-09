@@ -8,12 +8,10 @@ public class GoalModel extends DatabaseObject {
     int id;
 
     String title;
-    int targetCount;
 
-    public GoalModel(int id, String title, int targetCount) {
+    public GoalModel(int id, String title) {
         this.id = id;
         this.title = title;
-        this.targetCount = targetCount;
     }
 
     // Getters
@@ -22,8 +20,8 @@ public class GoalModel extends DatabaseObject {
         return title;
     }
 
-    public int getTargetCount() {
-        return targetCount;
+    public int getId() {
+        return id;
     }
 
     @Override
