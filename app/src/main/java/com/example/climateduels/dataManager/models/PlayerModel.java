@@ -173,6 +173,20 @@ public class PlayerModel extends DatabaseObject {
     }
 
 
+    public static boolean asyncCheckIfPlayerExists (String playerName, String teamCode) {
+        try {
+            String sql = "SELECT * FROM players WHERE name=? AND team_code=?";
+            PreparedStatement ps = DataManager.getConnection().prepareStatement(sql);
+            ps.setString(1, playerName);
+            ps.setString(2, teamCode);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     // Getters
     public String getName() {
         return name;

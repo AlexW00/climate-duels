@@ -46,6 +46,19 @@ public class TeamModel extends DatabaseObject {
         return null;
     }
 
+    public static boolean asyncCheckIfTeamExists (String teamCode) {
+        try {
+            String sql = "SELECT * FROM teams WHERE code=?";
+            PreparedStatement ps = DataManager.getConnection().prepareStatement(sql);
+            ps.setString(1, teamCode);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     // Getters
     public String getName() {
