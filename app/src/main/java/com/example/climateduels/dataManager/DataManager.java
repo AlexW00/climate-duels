@@ -23,14 +23,17 @@ public abstract class DataManager {
     }
 
     private static PlayerModel cachedPlayerModel;
+    private static boolean cachedPlayerModelIsValid = false;
+
     private static TeamModel cachedTeamModel;
+    private static boolean cachedTeamModelIsValid = false;
 
     public static Connection getConnection() {
         return database.connection;
     }
 
     public static void getPlayerCached(String teamCode, String playerName, ModelCallback<PlayerModel> callback) {
-        if (cachedPlayerModel != null && cachedPlayerModel.getName().equals(teamCode)) callback.onComplete(cachedPlayerModel);
+        if (cachedPlayerModelIsValid && cachedPlayerModel.getName().equals(teamCode)) callback.onComplete(cachedPlayerModel);
         else getPlayer(teamCode, playerName, callback);
     }
 
@@ -44,6 +47,7 @@ public abstract class DataManager {
             @Override protected void onPostExecute(PlayerModel player) {
                 super.onPostExecute(player);
                 cachedPlayerModel = player;
+                cachedPlayerModelIsValid = true;
                 callback.onComplete(player);
             }
         };
@@ -52,7 +56,7 @@ public abstract class DataManager {
 
 
     public static void getTeamCached(String teamCode, ModelCallback<TeamModel> callback) {
-        if (cachedTeamModel != null && cachedTeamModel.getCode().equals(teamCode)) callback.onComplete(cachedTeamModel);
+        if (cachedTeamModelIsValid && cachedTeamModel.getCode().equals(teamCode)) callback.onComplete(cachedTeamModel);
         else getTeam(teamCode, callback);
     }
 
@@ -66,12 +70,20 @@ public abstract class DataManager {
             @Override protected void onPostExecute(TeamModel team) {
                 super.onPostExecute(team);
                 cachedTeamModel = team;
-                System.out.println("***** Team");
-                System.out.println("team: " + team.getPlayers().size());
+                cachedTeamModelIsValid = true;
                 callback.onComplete(team);
             }
         };
         task.execute(teamCode);
+    }
+
+    // some really cheap caching
+    public static void invalidateCachedPlayerModel() {
+        cachedPlayerModelIsValid = false;
+    }
+
+    public static void invalidateCachedTeamModel() {
+        cachedTeamModelIsValid = false;
     }
 
 }

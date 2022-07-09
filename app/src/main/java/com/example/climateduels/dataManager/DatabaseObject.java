@@ -1,11 +1,9 @@
 package com.example.climateduels.dataManager;
 
-import com.example.climateduels.dataManager.models.ModelCallback;
-
 public abstract class DatabaseObject {
 
-    public abstract void refreshData(Void callback);
+    public abstract void refreshData(DatabaseCallback callback);
 
-    protected abstract void saveData(Void callback);
+    protected abstract void saveData(DatabaseCallback callback);
 
 }

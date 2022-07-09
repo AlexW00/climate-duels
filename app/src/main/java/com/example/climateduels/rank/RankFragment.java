@@ -69,7 +69,7 @@ public class RankFragment extends Fragment {
     }
 
     static String getTeamInfoString(TeamModel teamModel, boolean isLeading) {
-        String infoString = isLeading ? "\uD83C\uDFC6 " : "\uD83C\uDFC3 "; // gold pot if leader
+        String infoString = isLeading ? "\uD83C\uDFC6 " : "\uD83C\uDFC3 "; // gold pot if leader, runner otherwise
         infoString += teamModel.getName() + " ";
         infoString += teamModel.getTotalScore() + " ";
         return infoString;

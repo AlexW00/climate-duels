@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.climateduels.R;
 import com.example.climateduels.dataManager.DataManager;
+import com.example.climateduels.dataManager.models.PlayerModel;
 import com.example.climateduels.dataManager.models.UserGoalModel;
 import com.example.climateduels.dataManager.models.WeeklyChallengeModel;
 import com.google.gson.Gson;
@@ -39,7 +40,7 @@ public class ChallengeFragment extends Fragment {
             eatGoal,
             travelCount,
             eatCount;
-    private WeeklyChallengeModel weeklyChallengeModel;
+    private PlayerModel playerModel;
 
 
     @Override
@@ -52,7 +53,7 @@ public class ChallengeFragment extends Fragment {
                 userName = sharedPreferences.getString(getString(R.string.shared_pref_user_name), null);
 
         DataManager.getPlayerCached(teamCode, userName, playerModel -> {
-            this.weeklyChallengeModel = playerModel.getWeeklyChallenge();
+            this.playerModel = playerModel;
             initUI(view);
             fillUI();
         });
@@ -87,10 +88,8 @@ public class ChallengeFragment extends Fragment {
     }
 
     private void fillUI() {
-        System.out.println(new Gson().toJson(weeklyChallengeModel));
-
-        UserGoalModel travelGoal = weeklyChallengeModel.getGoalCategories().get(0).getGoals().get(0);
-        UserGoalModel eatGoal = weeklyChallengeModel.getGoalCategories().get(1).getGoals().get(0);
+        UserGoalModel travelGoal = playerModel.getWeeklyChallenge().getGoalCategories().get(0).getGoals().get(0);
+        UserGoalModel eatGoal = playerModel.getWeeklyChallenge().getGoalCategories().get(1).getGoals().get(0);
         String travelTitle = travelGoal.getTitle(),
                 eatTitle = eatGoal.getTitle();
 
@@ -104,24 +103,28 @@ public class ChallengeFragment extends Fragment {
                 eatCurrentNum = eatGoal.getCurrentCount();
         this.travelGoal.setText(Integer.toString(travelMaxNum));
         this.eatGoal.setText(Integer.toString(eatMaxNum));
-        travelCount.setText(Integer.toString(travelCurrentNum));
-        eatCount.setText(Integer.toString(eatCurrentNum));
+        travelCount.setText(Integer.toString(travelCurrentNum) + "/" + Integer.toString(travelMaxNum));
+        eatCount.setText(Integer.toString(eatCurrentNum) + "/" + Integer.toString(eatMaxNum));
 
-        int weeklyPoints = weeklyChallengeModel.getTotalScore();
-        this.weeklyPoints.setText(Integer.toString(weeklyPoints));
+        this.weeklyPoints.setText(playerModel.getWeeklyChallenge().getTotalScoreViewString());
     }
 
     private void onAddTravelButtonClicked() {
-        UserGoalModel travelGoal = weeklyChallengeModel.getGoalCategories().get(0).getGoals().get(0);
+        UserGoalModel travelGoal = playerModel.getWeeklyChallenge().getGoalCategories().get(0).getGoals().get(0);
         int travelMaxNum = travelGoal.getTargetCount(),
                 travelCurrentNum = travelGoal.getCurrentCount();
-        if(travelCurrentNum < travelMaxNum)
+        if(travelGoal.incrementCurrentCount())
         {
-            travelCurrentNum++; //TODO: Update DB
-            addPoints(1/travelMaxNum * 50);
-            travelCount.setText(travelCurrentNum + "/" + travelMaxNum);
+            travelCurrentNum = travelGoal.getCurrentCount();
+            addPoints(calculateAddPointsPerStep(2, travelMaxNum));
+            travelCount.setText(travelGoal.getTotalCountViewString());
             updateProgressBarTravel(getProgress(travelCurrentNum, travelMaxNum));
         }
+    }
+
+    private static int calculateAddPointsPerStep (int numberOfGoals, int goalMaxNum) {
+        double base = (1.0 / goalMaxNum) * (100.0 / numberOfGoals);
+        return (int) base;
     }
 
     private double getProgress(int current, int max) {
@@ -133,14 +136,14 @@ public class ChallengeFragment extends Fragment {
     }
 
     private void onAddEatButtonClicked() {
-        UserGoalModel eatGoal = weeklyChallengeModel.getGoalCategories().get(1).getGoals().get(0);
+        UserGoalModel eatGoal = playerModel.getWeeklyChallenge().getGoalCategories().get(1).getGoals().get(0);
         int eatMaxNum = eatGoal.getTargetCount(),
                 eatCurrentNum = eatGoal.getCurrentCount();
-        if(eatCurrentNum < eatMaxNum)
+        if(eatGoal.incrementCurrentCount())
         {
-            eatCurrentNum++; //TODO: Update DB
-            addPoints(1/eatMaxNum * 50);
-            eatCount.setText(eatCurrentNum + "/" + eatMaxNum);
+            eatCurrentNum = eatGoal.getCurrentCount();
+            addPoints(calculateAddPointsPerStep(2, eatMaxNum));
+            eatCount.setText(eatGoal.getTotalCountViewString());
             updateProgressBarEat(getProgress(eatCurrentNum, eatMaxNum));
         }
     }
@@ -154,8 +157,9 @@ public class ChallengeFragment extends Fragment {
     }
 
     private void addPoints(double additionalPoints) {
-        points += additionalPoints; //TODO: update DB
-        weeklyPoints.setText((int) points + "/100 points");
+        System.out.println("addPoints: " + additionalPoints);
+        playerModel.addToScore((int) additionalPoints); // idk if this is safe
+        weeklyPoints.setText(playerModel.getWeeklyChallenge().getTotalScoreViewString());
     }
 
 }

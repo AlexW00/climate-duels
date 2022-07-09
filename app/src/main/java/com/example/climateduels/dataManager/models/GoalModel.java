@@ -1,6 +1,7 @@
 package com.example.climateduels.dataManager.models;
 
 
+import com.example.climateduels.dataManager.DatabaseCallback;
 import com.example.climateduels.dataManager.DatabaseObject;
 
 public class GoalModel extends DatabaseObject {
@@ -26,13 +27,13 @@ public class GoalModel extends DatabaseObject {
     }
 
     @Override
-    public void refreshData(Void callback) {
+    public void refreshData(DatabaseCallback callback) {
         throw new UnsupportedOperationException("Not implemented");
 
     }
 
     @Override
-    protected void saveData(Void callback) {
+    protected void saveData(DatabaseCallback callback) {
         throw new UnsupportedOperationException("Not implemented");
     }
 }
