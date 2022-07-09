@@ -42,13 +42,16 @@ public class WeeklyChallengeModel extends DatabaseObject {
         return (int) (totalScore / numberOfGoals);
     }
 
+    // Overrides
     @Override
     public void refreshData(Void callback) {
+        throw new UnsupportedOperationException("Not implemented");
+
     }
 
     @Override
     protected void saveData(Void callback) {
-
+        throw new UnsupportedOperationException("Not implemented");
     }
 
 }

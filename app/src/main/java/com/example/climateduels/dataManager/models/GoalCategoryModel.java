@@ -1,12 +1,13 @@
 package com.example.climateduels.dataManager.models;
 
 import com.example.climateduels.dataManager.DataManager;
+import com.example.climateduels.dataManager.DatabaseObject;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class GoalCategoryModel <T extends GoalModel>  {
+public class GoalCategoryModel <T extends GoalModel> extends DatabaseObject {
 
     protected String title;
     protected String description;
@@ -131,5 +132,17 @@ public class GoalCategoryModel <T extends GoalModel>  {
 
     public ArrayList<T> getGoals() {
         return goals;
+    }
+
+    @Override
+    public void refreshData(Void callback) {
+        throw new UnsupportedOperationException("Not implemented");
+
+    }
+
+    @Override
+    protected void saveData(Void callback) {
+        throw new UnsupportedOperationException("Not implemented");
+
     }
 }

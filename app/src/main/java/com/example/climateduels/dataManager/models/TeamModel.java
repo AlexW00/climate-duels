@@ -8,12 +8,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class TeamModel extends DatabaseObject {
-    String name;
-    String code;
+    private String name;
+    private String code;
 
-    ArrayList<PlayerModel> players;
+    private ArrayList<PlayerModel> players;
 
-    ArrayList<GoalCategoryModel<GoalModel>> goalCategories;
+    private ArrayList<GoalCategoryModel<GoalModel>> goalCategories;
 
     private TeamModel(String name, String code, ArrayList<PlayerModel> players, ArrayList<GoalCategoryModel<GoalModel>> goalCategories) {
         this.name = name;
@@ -22,6 +22,7 @@ public class TeamModel extends DatabaseObject {
         this.goalCategories = goalCategories;
     }
 
+    // DB Queries
     public static TeamModel asyncCreateTeamModel(String code) {
         String name = asyncGetTeamName(code);
         ArrayList<PlayerModel> players = PlayerModel.asyncCreatePlayerModel(code);
@@ -54,37 +55,25 @@ public class TeamModel extends DatabaseObject {
         return code;
     }
 
-
     public ArrayList<GoalCategoryModel<GoalModel>> getGoalCategories() {
         return goalCategories;
     }
-
-    // Special getters
 
     public ArrayList<PlayerModel> getPlayers() {
         return players;
     }
 
+
+    // Overrides
     @Override
     public void refreshData(Void callback) {
-
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
     protected void saveData(Void callback) {
+        throw new UnsupportedOperationException("Not implemented");
 
     }
 
-//    @Override
-//    protected void initData() {
-//        String sql = "SELECT * FROM " + getTableName() + " WHERE code = ?";
-//        try {
-//            PreparedStatement statement = DataManager.getConnection().prepareStatement(sql);
-//            statement.setString(1, code);
-//            ResultSet resultSet = statement.executeQuery();
-//            if (resultSet.next()) this.name = resultSet.getString("name");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

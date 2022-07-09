@@ -10,12 +10,6 @@ public class UserGoalModel extends GoalModel {
         this.currentCount = currentCount;
     }
 
-    // mock data constructor
-    public UserGoalModel() {
-        super();
-        this.currentCount = 0;
-    }
-
     // Getters
 
     public int getCurrentCount() {
@@ -24,5 +18,18 @@ public class UserGoalModel extends GoalModel {
 
     public int getPercentageComplete() {
         return (int) (((double) currentCount / (double) targetCount) * 100);
+    }
+
+    // Overrides
+    @Override
+    public void refreshData(Void callback) {
+        throw new UnsupportedOperationException("Not implemented");
+
+    }
+
+    @Override
+    protected void saveData(Void callback) {
+        throw new UnsupportedOperationException("Not implemented");
+
     }
 }

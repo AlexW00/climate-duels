@@ -1,7 +1,9 @@
 package com.example.climateduels.dataManager.models;
 
 
-public class GoalModel {
+import com.example.climateduels.dataManager.DatabaseObject;
+
+public class GoalModel extends DatabaseObject {
     int id;
 
     String title;
@@ -13,11 +15,6 @@ public class GoalModel {
         this.targetCount = targetCount;
     }
 
-    public GoalModel() {
-        this.title = "Test title";
-        this.targetCount = 5;
-    }
-
     // Getters
 
     public String getTitle() {
@@ -26,5 +23,16 @@ public class GoalModel {
 
     public int getTargetCount() {
         return targetCount;
+    }
+
+    @Override
+    public void refreshData(Void callback) {
+        throw new UnsupportedOperationException("Not implemented");
+
+    }
+
+    @Override
+    protected void saveData(Void callback) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 }

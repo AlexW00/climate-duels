@@ -73,6 +73,7 @@ public class PlayerModel extends DatabaseObject {
     }
 
 
+    // Getters
     public String getName() {
         return name;
     }
@@ -89,12 +90,15 @@ public class PlayerModel extends DatabaseObject {
         return weeklyChallenge;
     }
 
+
+    // Overrides
     @Override
     public void refreshData(Void callback) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
     protected void saveData(Void callback) {
-
+        throw new UnsupportedOperationException("Not implemented");
     }
 }
