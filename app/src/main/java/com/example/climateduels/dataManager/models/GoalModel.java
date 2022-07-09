@@ -15,7 +15,6 @@ public class GoalModel extends DatabaseObject {
     }
 
     // Getters
-
     public String getTitle() {
         return title;
     }
@@ -24,6 +23,7 @@ public class GoalModel extends DatabaseObject {
         return id;
     }
 
+    // Overrides
     @Override
     public void refreshData(DatabaseCallback callback) {
         throw new UnsupportedOperationException("Not implemented");

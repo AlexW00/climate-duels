@@ -24,8 +24,6 @@ public class Database {
     {
         this.url = String.format(this.url, this.host, this.port, this.database);
         connect();
-        //this.disconnect();
-        System.out.println("connection status:" + status);
     }
 
     private void connect()
@@ -59,21 +57,5 @@ public class Database {
             e.printStackTrace();
             this.status = false;
         }
-    }
-
-    public Connection getExtraConnection()
-    {
-        Connection c = null;
-        try
-        {
-            Class.forName("org.postgresql.Driver");
-            c = DriverManager.getConnection(url, user, pass);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return c;
     }
 }

@@ -81,8 +81,6 @@ public class PlayerModel extends DatabaseObject {
     private static boolean saveSelfSql(String playerName, String teamCode, int totalScore) {
         String sql = "UPDATE player_scores SET score=? WHERE player_name=? AND team_code=?";
         try {
-
-            System.out.println("Saving player score: " + playerName + " " + teamCode + " " + totalScore);
             PreparedStatement statement = DataManager.getConnection().prepareStatement(sql);
             statement.setInt(1, totalScore);
             statement.setString(2, playerName);

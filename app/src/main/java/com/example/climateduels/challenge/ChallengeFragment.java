@@ -96,7 +96,6 @@ public class ChallengeFragment extends Fragment {
         this.travelGoal.setText(travelTitle);
         this.eatGoal.setText(eatTitle);
 
-
         // sorry for shitting in your code, it's 4 am and I'm tired
         String travelCategoryTitle = playerModel.getWeeklyChallenge().getGoalCategories().get(0).getTitle();
         String eatCategoryTitle = playerModel.getWeeklyChallenge().getGoalCategories().get(1).getTitle();
@@ -123,6 +122,7 @@ public class ChallengeFragment extends Fragment {
         updateParentTopBar();
     }
 
+    // called when the user clicks the + button of the travel goal
     private void onAddTravelButtonClicked() {
         UserGoalModel travelGoal = playerModel.getWeeklyChallenge().getGoalCategories().get(0).getGoals().get(0);
         int travelMaxNum = travelGoal.getTargetCount(),
@@ -136,19 +136,7 @@ public class ChallengeFragment extends Fragment {
         }
     }
 
-    private static int calculateAddPointsPerStep (int numberOfGoals, int goalMaxNum) {
-        double base = (1.0 / goalMaxNum) * (100.0 / numberOfGoals);
-        return (int) base;
-    }
-
-    private double getProgress(int current, int max) {
-        double progress = current/(double) max;
-        if(progress > 1.0) {
-            progress = 1.0;
-        }
-        return progress;
-    }
-
+    // called when the user clicks the + button of the eat goal
     private void onAddEatButtonClicked() {
         UserGoalModel eatGoal = playerModel.getWeeklyChallenge().getGoalCategories().get(1).getGoals().get(0);
         int eatMaxNum = eatGoal.getTargetCount(),
@@ -173,7 +161,6 @@ public class ChallengeFragment extends Fragment {
     private void addPoints(double additionalPoints) {
         playerModel.addToScore((int) additionalPoints); // idk if this is safe
         weeklyPoints.setText(playerModel.getWeeklyChallenge().getTotalScoreViewString());
-
         updateParentTopBar();
     }
 
@@ -181,5 +168,19 @@ public class ChallengeFragment extends Fragment {
     private void updateParentTopBar () {
         PerformanceActivity activity = (PerformanceActivity) getActivity();
         if (activity != null) activity.updateTopBar(playerModel.getTotalScore());
+    }
+
+    // Helper methods
+    private static int calculateAddPointsPerStep (int numberOfGoals, int goalMaxNum) {
+        double base = (1.0 / goalMaxNum) * (100.0 / numberOfGoals);
+        return (int) base;
+    }
+
+    private double getProgress(int current, int max) {
+        double progress = current/(double) max;
+        if(progress > 1.0) {
+            progress = 1.0;
+        }
+        return progress;
     }
 }
