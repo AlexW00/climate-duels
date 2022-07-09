@@ -62,7 +62,7 @@ public class PerformanceActivity extends AppCompatActivity {
     }
 
     public void updateTopBar (int newScore) {
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Total score: " + Integer.toString(newScore));
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Total points: " + Integer.toString(newScore));
     }
 
     private void switchToFragment(Fragment fr){
