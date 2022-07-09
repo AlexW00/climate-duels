@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.climateduels.PerformanceActivity;
 import com.example.climateduels.R;
 import com.example.climateduels.dataManager.DataManager;
 import com.example.climateduels.dataManager.models.PlayerModel;
@@ -119,6 +120,7 @@ public class ChallengeFragment extends Fragment {
         updateProgressBarEat(eatCurrentNum);
 
         this.weeklyPoints.setText(playerModel.getWeeklyChallenge().getTotalScoreViewString());
+        updateParentTopBar();
     }
 
     private void onAddTravelButtonClicked() {
@@ -169,9 +171,15 @@ public class ChallengeFragment extends Fragment {
     }
 
     private void addPoints(double additionalPoints) {
-        System.out.println("addPoints: " + additionalPoints);
         playerModel.addToScore((int) additionalPoints); // idk if this is safe
         weeklyPoints.setText(playerModel.getWeeklyChallenge().getTotalScoreViewString());
+
+        updateParentTopBar();
     }
 
+    // God forgive me
+    private void updateParentTopBar () {
+        PerformanceActivity activity = (PerformanceActivity) getActivity();
+        if (activity != null) activity.updateTopBar(playerModel.getTotalScore());
+    }
 }

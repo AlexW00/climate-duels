@@ -21,6 +21,6 @@
     <string name="fr_challenge_header_weekly_challenges">Weekly challenges</string>
     <string name="fr_challenge_travel_title_placeholder">FILL_TITLE</string>
     <string name="fr_challenge_placeholder">FILL_DESC</string>
-    <string name="fr_challenge_score_text">Your score:</string>
+    <string name="fr_challenge_score_text">Points this week:</string>
     <string name="fr_challenge_score_demo">FILL_SCORE</string>
 </resources>
