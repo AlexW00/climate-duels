@@ -92,19 +92,31 @@ public class ChallengeFragment extends Fragment {
         UserGoalModel eatGoal = playerModel.getWeeklyChallenge().getGoalCategories().get(1).getGoals().get(0);
         String travelTitle = travelGoal.getTitle(),
                 eatTitle = eatGoal.getTitle();
+        this.travelGoal.setText(travelTitle);
+        this.eatGoal.setText(eatTitle);
 
-        this.travelTitle.setText(travelTitle);
-        this.eatTitle.setText(eatTitle);
 
-        int
-                travelMaxNum = travelGoal.getTargetCount(),
-                travelCurrentNum = travelGoal.getCurrentCount(),
-                eatMaxNum = eatGoal.getTargetCount(),
+        // sorry for shitting in your code, it's 4 am and I'm tired
+        String travelCategoryTitle = playerModel.getWeeklyChallenge().getGoalCategories().get(0).getTitle();
+        String eatCategoryTitle = playerModel.getWeeklyChallenge().getGoalCategories().get(1).getTitle();
+        this.travelTitle.setText(travelCategoryTitle);
+        this.eatTitle.setText(eatCategoryTitle);
+
+        travelCount.setText(travelGoal.getTotalCountViewString());
+        eatCount.setText(eatGoal.getTotalCountViewString());
+
+        // init progress bars
+        int travelMaxNum = travelGoal.getTargetCount(),
+                travelCurrentNum = travelGoal.getCurrentCount();
+        progressBarTravel.setMin(0);
+        progressBarTravel.setMax(travelMaxNum);
+        updateProgressBarTravel(travelCurrentNum);
+
+        int eatMaxNum = eatGoal.getTargetCount(),
                 eatCurrentNum = eatGoal.getCurrentCount();
-        this.travelGoal.setText(Integer.toString(travelMaxNum));
-        this.eatGoal.setText(Integer.toString(eatMaxNum));
-        travelCount.setText(Integer.toString(travelCurrentNum) + "/" + Integer.toString(travelMaxNum));
-        eatCount.setText(Integer.toString(eatCurrentNum) + "/" + Integer.toString(eatMaxNum));
+        progressBarEat.setMin(0);
+        progressBarEat.setMax(eatMaxNum);
+        updateProgressBarEat(eatCurrentNum);
 
         this.weeklyPoints.setText(playerModel.getWeeklyChallenge().getTotalScoreViewString());
     }
@@ -118,7 +130,7 @@ public class ChallengeFragment extends Fragment {
             travelCurrentNum = travelGoal.getCurrentCount();
             addPoints(calculateAddPointsPerStep(2, travelMaxNum));
             travelCount.setText(travelGoal.getTotalCountViewString());
-            updateProgressBarTravel(getProgress(travelCurrentNum, travelMaxNum));
+            updateProgressBarTravel(travelCurrentNum);
         }
     }
 
@@ -144,16 +156,16 @@ public class ChallengeFragment extends Fragment {
             eatCurrentNum = eatGoal.getCurrentCount();
             addPoints(calculateAddPointsPerStep(2, eatMaxNum));
             eatCount.setText(eatGoal.getTotalCountViewString());
-            updateProgressBarEat(getProgress(eatCurrentNum, eatMaxNum));
+            updateProgressBarEat(eatCurrentNum);
         }
     }
 
-    private void updateProgressBarTravel(double value) {
-        progressBarTravel.setProgress((int) value * 100, true);
+    private void updateProgressBarTravel(int currentProgress) {
+        progressBarTravel.setProgress(currentProgress, true);
     }
 
-    private void updateProgressBarEat(double value) {
-        progressBarEat.setProgress((int) value * 100, true);
+    private void updateProgressBarEat(int currentProgress) {
+        progressBarEat.setProgress(currentProgress, true);
     }
 
     private void addPoints(double additionalPoints) {

@@ -12,7 +12,7 @@
             android:id="@+id/message4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Score Board"
+            android:text="Team Vs Team"
             android:textAlignment="center"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
