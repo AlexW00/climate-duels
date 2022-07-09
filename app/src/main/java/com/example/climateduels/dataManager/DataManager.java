@@ -30,7 +30,7 @@ public abstract class DataManager {
     }
 
     public static void getPlayerCached(String teamCode, String playerName, ModelCallback<PlayerModel> callback) {
-        if (cachedPlayerModel != null) callback.onComplete(cachedPlayerModel);
+        if (cachedPlayerModel != null && cachedPlayerModel.getName().equals(teamCode)) callback.onComplete(cachedPlayerModel);
         else getPlayer(teamCode, playerName, callback);
     }
 
@@ -52,7 +52,7 @@ public abstract class DataManager {
 
 
     public static void getTeamCached(String teamCode, ModelCallback<TeamModel> callback) {
-        if (cachedTeamModel != null) callback.onComplete(cachedTeamModel);
+        if (cachedTeamModel != null && cachedTeamModel.getCode().equals(teamCode)) callback.onComplete(cachedTeamModel);
         else getTeam(teamCode, callback);
     }
 

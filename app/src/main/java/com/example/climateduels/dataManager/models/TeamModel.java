@@ -73,6 +73,20 @@ public class TeamModel extends DatabaseObject {
         return totalScore;
     }
 
+    public ArrayList<PlayerModel> getPlayersSorted () {
+        ArrayList<PlayerModel> sortedPlayerModels = this.getPlayers();
+        sortedPlayerModels.sort((playerModel1, playerModel2) -> {
+            if (playerModel1.getTotalScore() > playerModel2.getTotalScore()) {
+                return -1;
+            } else if (playerModel1.getTotalScore() < playerModel2.getTotalScore()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        return sortedPlayerModels;
+    }
+
     // Overrides
     @Override
     public void refreshData(Void callback) {

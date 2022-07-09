@@ -1,6 +1,7 @@
 package com.example.climateduels.team;
 
 import static com.example.climateduels.R.id.recycler_menu;
+import static com.example.climateduels.R.id.team;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -42,11 +43,31 @@ public class TeamFragment extends Fragment {
         DataManager.getTeamCached(teamCode, teamModel -> {
             recyclerView = view.findViewById(recycler_menu);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
             ArrayList<String> teamMembers = new ArrayList<>();
-            for (PlayerModel playerModel : teamModel.getPlayers()) {
-                String content = playerModel.getName();
+            int index = 0;
+            ArrayList<PlayerModel> sortedPlayers = teamModel.getPlayersSorted();
+            for (PlayerModel playerModel : sortedPlayers) {
+                String content = "";
+                if (index == 0) {
+                    content = "\uD83D\uDC51 "; // crown
+                } else if (index == 1) {
+                    // silver medal
+                    content = "\uD83E\uDD48 ";
+                } else if (index == 2) {
+                    // bronze medal
+                    content = "\uD83E\uDD49 ";
+                }
+                else if (index == sortedPlayers.size() - 1) {
+                    content = "\uD83D\uDCA9 "; // pooooooooopooooo
+                } else {
+                    content = Integer.toString(index + 1) + ". ";
+                }
+                content += playerModel.getName();
                 content += " " + playerModel.getTotalScore();
                 teamMembers.add(content);
+                index++;
             }
             recyclerView.setAdapter(new CustomAdapter(teamMembers.toArray(new String[teamMembers.size()])));
 

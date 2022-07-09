@@ -50,18 +50,26 @@ public class RankFragment extends Fragment {
 
         DataManager.getTeamCached(teamCode, ownTeamModel -> {
             DataManager.getTeam(enemyTeamCode, enemyTeam -> {
-                String[] teamStrings = new String[]{
-                        getTeamInfoString(ownTeamModel),
-                        getTeamInfoString(enemyTeam)
-                };
-                
+                String[] teamStrings = new String[2];
+                if (ownTeamModel.getTotalScore() > enemyTeam.getTotalScore()) {
+                    teamStrings = new String[]{
+                            getTeamInfoString(ownTeamModel, true),
+                            getTeamInfoString(enemyTeam, false)
+                    };
+                } else {
+                    teamStrings = new String[]{
+                            getTeamInfoString(enemyTeam, true),
+                            getTeamInfoString(ownTeamModel, false)
+                    };
+                }
+
                 recyclerView.setAdapter(new CustomAdapter(teamStrings));
             });
         });
     }
 
-    static String getTeamInfoString(TeamModel teamModel) {
-        String infoString = "";
+    static String getTeamInfoString(TeamModel teamModel, boolean isLeading) {
+        String infoString = isLeading ? "\uD83C\uDFC6 " : "\uD83C\uDFC3 "; // gold pot if leader
         infoString += teamModel.getName() + " ";
         infoString += teamModel.getTotalScore() + " ";
         return infoString;
