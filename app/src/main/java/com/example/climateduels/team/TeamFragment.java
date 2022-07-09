@@ -43,7 +43,7 @@ public class TeamFragment extends Fragment {
         DataManager.getTeamCached(teamCode, teamModel -> {
             recyclerView = view.findViewById(recycler_menu);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+            String userName = sharedPreferences.getString(getString(R.string.shared_pref_user_name), null);
 
             ArrayList<String> teamMembers = new ArrayList<>();
             int index = 0;
@@ -66,6 +66,11 @@ public class TeamFragment extends Fragment {
                 }
                 content += playerModel.getName();
                 content += " " + playerModel.getTotalScore();
+
+                if (playerModel.getName().equals(userName)) {
+                    content = content + " ⬅️ (you)";
+                }
+
                 teamMembers.add(content);
                 index++;
             }

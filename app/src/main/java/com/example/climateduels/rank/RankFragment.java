@@ -53,13 +53,13 @@ public class RankFragment extends Fragment {
                 String[] teamStrings = new String[2];
                 if (ownTeamModel.getTotalScore() > enemyTeam.getTotalScore()) {
                     teamStrings = new String[]{
-                            getTeamInfoString(ownTeamModel, true),
-                            getTeamInfoString(enemyTeam, false)
+                            getTeamInfoString(ownTeamModel, true, true),
+                            getTeamInfoString(enemyTeam, false, false)
                     };
                 } else {
                     teamStrings = new String[]{
-                            getTeamInfoString(enemyTeam, true),
-                            getTeamInfoString(ownTeamModel, false)
+                            getTeamInfoString(enemyTeam, true, false),
+                            getTeamInfoString(ownTeamModel, false ,true)
                     };
                 }
 
@@ -68,10 +68,13 @@ public class RankFragment extends Fragment {
         });
     }
 
-    static String getTeamInfoString(TeamModel teamModel, boolean isLeading) {
-        String infoString = isLeading ? "\uD83C\uDFC6 " : "\uD83C\uDFC3 "; // gold pot if leader, runner otherwise
+    static String getTeamInfoString(TeamModel teamModel, boolean isLeading, boolean isSelf) {
+        String infoString = isLeading ? "\uD83D\uDC51 " : "\uD83C\uDFC3 "; // crown if leader, runner otherwise
         infoString += teamModel.getName() + " ";
         infoString += teamModel.getTotalScore() + " ";
+        if (isSelf) {
+            infoString += " ⬅️ (your team)"; // indicator for your team
+        }
         return infoString;
     }
 }

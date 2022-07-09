@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.MenuItem;
 
 import com.example.climateduels.challenge.ChallengeFragment;
@@ -36,22 +37,25 @@ public class PerformanceActivity extends AppCompatActivity {
         bottomView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()){
-                    case R.id.challenge_tab:
-                        ChallengeFragment cf = new ChallengeFragment();
-                        switchToFragment(cf);
-                        return true;
-                    case R.id.team_tab:
-                        TeamFragment tf = new TeamFragment();
-                        switchToFragment(tf);
-                        return true;
-                    case R.id.ranking_tab:
-                        RankFragment rf = new RankFragment();
-                        switchToFragment(rf);
-                        return true;
+                if (!DataManager.isWaitingForData()) {
+                    switch (item.getItemId()) {
+                        case R.id.challenge_tab:
+                            ChallengeFragment cf = new ChallengeFragment();
+                            switchToFragment(cf);
+                            return true;
+                        case R.id.team_tab:
+                            TeamFragment tf = new TeamFragment();
+                            switchToFragment(tf);
+                            return true;
+                        case R.id.ranking_tab:
+                            RankFragment rf = new RankFragment();
+                            switchToFragment(rf);
+                            return true;
+                    }
                 }
-                return false;
-            }
+                    return false;
+                }
+
         });
 
 
@@ -62,7 +66,7 @@ public class PerformanceActivity extends AppCompatActivity {
     }
 
     public void updateTopBar (int newScore) {
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Total points: " + Integer.toString(newScore));
+        Objects.requireNonNull(getSupportActionBar()).setTitle("\uD83C\uDF31 Total points: " + Integer.toString(newScore));
     }
 
     private void switchToFragment(Fragment fr){

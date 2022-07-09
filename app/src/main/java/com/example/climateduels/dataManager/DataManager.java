@@ -28,6 +28,8 @@ public abstract class DataManager {
     private static TeamModel cachedTeamModel;
     private static boolean cachedTeamModelIsValid = false;
 
+    private static boolean isWaitingForData = false;
+
     public static Connection getConnection() {
         return database.connection;
     }
@@ -38,6 +40,7 @@ public abstract class DataManager {
     }
 
     public static void getPlayer(String teamCode, String playerName, ModelCallback<PlayerModel> callback) {
+        isWaitingForData = true;
         AsyncTask<String, Void, PlayerModel> task = new AsyncTask<String, Void, PlayerModel>() {
             @Override
             protected PlayerModel doInBackground(String... params) {
@@ -48,6 +51,7 @@ public abstract class DataManager {
                 super.onPostExecute(player);
                 cachedPlayerModel = player;
                 cachedPlayerModelIsValid = true;
+                isWaitingForData = false;
                 callback.onComplete(player);
             }
         };
@@ -61,6 +65,7 @@ public abstract class DataManager {
     }
 
     public static void getTeam(String teamCode, ModelCallback<TeamModel> callback) {
+        isWaitingForData = true;
         AsyncTask<String, Void, TeamModel> task = new AsyncTask<String, Void, TeamModel>() {
             @Override
             protected TeamModel doInBackground(String... params) {
@@ -71,6 +76,7 @@ public abstract class DataManager {
                 super.onPostExecute(team);
                 cachedTeamModel = team;
                 cachedTeamModelIsValid = true;
+                isWaitingForData = false;
                 callback.onComplete(team);
             }
         };
@@ -86,4 +92,9 @@ public abstract class DataManager {
         cachedTeamModelIsValid = false;
     }
 
+
+    // avoid threading issues by waiting for data to be loaded
+    public static boolean isWaitingForData() {
+        return isWaitingForData;
+    }
 }
