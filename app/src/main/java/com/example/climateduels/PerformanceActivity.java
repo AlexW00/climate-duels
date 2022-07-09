@@ -31,6 +31,12 @@ public class PerformanceActivity extends AppCompatActivity {
         ChallengeFragment cf = new ChallengeFragment();
         switchToFragment(cf);
 
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
+                getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(getString(R.string.shared_pref_has_choosen_boolean_key), "asd");
+        editor.apply();
+
         sp = getApplicationContext().getSharedPreferences(getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
 
         BottomNavigationView bottomView = findViewById(R.id.bottom_navigation);

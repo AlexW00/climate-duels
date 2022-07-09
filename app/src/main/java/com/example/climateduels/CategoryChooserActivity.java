@@ -2,7 +2,9 @@ package com.example.climateduels;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +32,7 @@ public class CategoryChooserActivity extends AppCompatActivity {
     private RadioGroup radioGroupTravel, radioGroupEat;
     private String teamCode, userName;
     private TeamModel teamModel;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,17 @@ public class CategoryChooserActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         teamCode = bundle.getString(StartActivity.TEAM_CODE_KEY);
         userName = bundle.getString(StartActivity.USER_NAME_KEY);
+        initPreferences();
         initUI();
+    }
+
+    private void initPreferences() {
+        sharedPreferences = getApplicationContext().getSharedPreferences(
+                getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
+        String hasChosen = sharedPreferences.getString(getString(R.string.shared_pref_has_choosen_boolean_key), null);
+        if(hasChosen!=null){
+            startPerformanceActivity();
+        }
     }
 
     private void initUI() {
@@ -146,6 +159,7 @@ public class CategoryChooserActivity extends AppCompatActivity {
         } else {
             showErrorToastGoal();
         }
+
     }
 
     private void showErrorToastGoal() {

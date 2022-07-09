@@ -23,4 +23,5 @@
     <string name="fr_challenge_placeholder">FILL_DESC</string>
     <string name="fr_challenge_score_text">Points this week:</string>
     <string name="fr_challenge_score_demo">FILL_SCORE</string>
+    <string name="shared_pref_has_choosen_boolean_key">boolean key</string>
 </resources>
