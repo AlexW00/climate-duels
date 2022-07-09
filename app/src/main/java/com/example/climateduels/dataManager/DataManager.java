@@ -29,8 +29,12 @@ public abstract class DataManager {
         return database.connection;
     }
 
-    public static void getPlayer (String teamCode, String playerName, ModelCallback<PlayerModel> callback) {
+    public static void getPlayerCached(String teamCode, String playerName, ModelCallback<PlayerModel> callback) {
         if (cachedPlayerModel != null) callback.onComplete(cachedPlayerModel);
+        else getPlayer(teamCode, playerName, callback);
+    }
+
+    public static void getPlayer(String teamCode, String playerName, ModelCallback<PlayerModel> callback) {
         AsyncTask<String, Void, PlayerModel> task = new AsyncTask<String, Void, PlayerModel>() {
             @Override
             protected PlayerModel doInBackground(String... params) {
@@ -46,8 +50,13 @@ public abstract class DataManager {
         task.execute(playerName, teamCode);
     }
 
-    public static void getTeam(String teamCode, ModelCallback<TeamModel> callback) {
+
+    public static void getTeamCached(String teamCode, ModelCallback<TeamModel> callback) {
         if (cachedTeamModel != null) callback.onComplete(cachedTeamModel);
+        else getTeam(teamCode, callback);
+    }
+
+    public static void getTeam(String teamCode, ModelCallback<TeamModel> callback) {
         AsyncTask<String, Void, TeamModel> task = new AsyncTask<String, Void, TeamModel>() {
             @Override
             protected TeamModel doInBackground(String... params) {

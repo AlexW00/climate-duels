@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.example.climateduels.dataManager.DataManager;
 import com.example.climateduels.dataManager.models.GoalCategoryModel;
 import com.example.climateduels.dataManager.models.GoalModel;
-import com.example.climateduels.dataManager.models.TeamModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -62,7 +61,7 @@ public class CategoryChooserActivity extends AppCompatActivity {
                 eatDescription = findViewById(R.id.text_eat_description);
 
 
-        DataManager.getTeam(teamCode, teamModel -> {
+        DataManager.getTeamCached(teamCode, teamModel -> {
 
             System.out.println("**** CategoryChooserActivity ****");
             System.out.println(new Gson().toJson(teamModel));

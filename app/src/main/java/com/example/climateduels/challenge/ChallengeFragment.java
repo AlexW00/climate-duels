@@ -17,8 +17,6 @@ import android.widget.TextView;
 
 import com.example.climateduels.R;
 import com.example.climateduels.dataManager.DataManager;
-import com.example.climateduels.dataManager.models.GoalCategoryModel;
-import com.example.climateduels.dataManager.models.PlayerModel;
 import com.example.climateduels.dataManager.models.UserGoalModel;
 import com.example.climateduels.dataManager.models.WeeklyChallengeModel;
 import com.google.gson.Gson;
@@ -53,7 +51,7 @@ public class ChallengeFragment extends Fragment {
         String teamCode = sharedPreferences.getString(getString(R.string.shared_pref_team_name), null),
                 userName = sharedPreferences.getString(getString(R.string.shared_pref_user_name), null);
 
-        DataManager.getPlayer(teamCode, userName, playerModel -> {
+        DataManager.getPlayerCached(teamCode, userName, playerModel -> {
             this.weeklyChallengeModel = playerModel.getWeeklyChallenge();
             initUI(view);
             fillUI();

@@ -2,8 +2,6 @@ package com.example.climateduels.team;
 
 import static com.example.climateduels.R.id.recycler_menu;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.climateduels.R;
 import com.example.climateduels.dataManager.DataManager;
@@ -42,7 +39,7 @@ public class TeamFragment extends Fragment {
                 getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
         String teamCode = sharedPreferences.getString(getString(R.string.shared_pref_team_name), null);
 
-        DataManager.getTeam(teamCode, teamModel -> {
+        DataManager.getTeamCached(teamCode, teamModel -> {
             recyclerView = view.findViewById(recycler_menu);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             ArrayList<String> teamMembers = new ArrayList<>();

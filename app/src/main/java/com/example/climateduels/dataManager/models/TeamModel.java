@@ -63,6 +63,15 @@ public class TeamModel extends DatabaseObject {
         return players;
     }
 
+    // Special Getters
+
+    public int getTotalScore() {
+        int totalScore = 0;
+        for (PlayerModel player : players) {
+            totalScore += player.getTotalScore();
+        }
+        return totalScore;
+    }
 
     // Overrides
     @Override
