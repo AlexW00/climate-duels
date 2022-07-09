@@ -83,6 +83,37 @@ public abstract class DataManager {
         task.execute(teamCode);
     }
 
+    public static void checkIfPlayerNameExists(String playerName, String teamCode, ModelCallback<Boolean> callback) {
+        AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(String... params) {
+                return PlayerModel.asyncCheckIfPlayerExists(params[0], params[1]);
+            }
+
+            @Override protected void onPostExecute(Boolean exists) {
+                super.onPostExecute(exists);
+                callback.onComplete(exists);
+            }
+        };
+        task.execute(playerName, teamCode);
+    };
+
+    public static void checkIfTeamExists(String teamCode, ModelCallback<Boolean> callback) {
+        AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(String... params) {
+                return TeamModel.asyncCheckIfTeamExists(params[0]);
+            }
+
+            @Override protected void onPostExecute(Boolean exists) {
+                super.onPostExecute(exists);
+                callback.onComplete(exists);
+            }
+        };
+        task.execute(teamCode);
+    };
+
+
     // some really cheap caching
     public static void invalidateCachedPlayerModel() {
         cachedPlayerModelIsValid = false;

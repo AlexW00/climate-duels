@@ -12,10 +12,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.climateduels.dataManager.DataManager;
-import com.example.climateduels.dataManager.models.PlayerModel;
-import com.example.climateduels.dataManager.models.TeamModel;
-import com.example.climateduels.database.Database;
-import com.google.gson.Gson;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -75,7 +71,7 @@ public class StartActivity extends AppCompatActivity {
 
 
         if(userName.length()<=3){
-            showUsernameError();
+            showUsernameFormatError();
             return;
         }
         if(teamCode.length()!=5){//TODO Datamanager
@@ -83,19 +79,21 @@ public class StartActivity extends AppCompatActivity {
             return;
         }
 
-        /**
-        if(DataManager.containsTeam(teamCode)) {
-
-        }
-        else {
-
-        }
-         */
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(getString(R.string.shared_pref_user_name), userName);
-        editor.putString(getString(R.string.shared_pref_team_name), teamCode);
-        editor.apply();
-        startCategoryChooserActivity(teamCode, userName);
+        DataManager.checkIfTeamExists(teamCode, teamDoesExist -> {
+            if (teamDoesExist) {
+                DataManager.checkIfPlayerNameExists(userName, teamCode, userNameDoesExist -> {
+                    if (userNameDoesExist) showUsernameDoesExistError();
+                    else {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(getString(R.string.shared_pref_user_name), userName);
+                        editor.putString(getString(R.string.shared_pref_team_name), teamCode);
+                        editor.apply();
+                        startCategoryChooserActivity(teamCode, userName);
+                    }
+                });
+            }
+            else showTeamCodeError();
+        });
     }
 
     private void showTeamCodeError() {
@@ -103,10 +101,14 @@ public class StartActivity extends AppCompatActivity {
                 "Please put in a valid team code.", Toast.LENGTH_SHORT).show();
     }
 
-    private void showUsernameError() {
+    private void showUsernameFormatError() {
         Toast.makeText(StartActivity.this,
                 "Please choose a user name of length 3-20.", Toast.LENGTH_SHORT).show();
+    }
 
+    private void showUsernameDoesExistError() {
+        Toast.makeText(StartActivity.this,
+                "This user name is already taken.", Toast.LENGTH_SHORT).show();
     }
 
     private void startCategoryChooserActivity(String teamCode, String userName) {
